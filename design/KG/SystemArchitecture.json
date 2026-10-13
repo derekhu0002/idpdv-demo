@@ -8,9 +8,18 @@
       "type": "Business Actor",
       "description": "本项目默认主 Business Actor：负责人与主 Agent 身份。未指定角色时默认以项目经理身份对话、规划与决策，并按需把工作委派给项目内的其他 Business Actor。",
       "subdiagram_views": [
-        { "view_id": "project-manager-001-wm-001", "view_name": "项目经理工作记忆" },
-        { "view_id": "project-manager-001-ltm-001", "view_name": "项目经理长期记忆" },
-        { "view_id": "project-manager-001-archive-001", "view_name": "项目经理档案" }
+        {
+          "view_id": "project-manager-001-wm-001",
+          "view_name": "项目经理工作记忆"
+        },
+        {
+          "view_id": "project-manager-001-ltm-001",
+          "view_name": "项目经理长期记忆"
+        },
+        {
+          "view_id": "project-manager-001-archive-001",
+          "view_name": "项目经理档案"
+        }
       ]
     },
     {
@@ -19,9 +28,18 @@
       "type": "Business Object",
       "description": "【T1 会话摘要】2026-10-13 工作区 bootstrap：IDPDV demo 项目建立，目标为将开源安卓应用 android/architecture-samples（Todo）移植为鸿蒙应用（ArkTS/ArkUI），采用 IPD 全量设计四阶段推进。待补充。",
       "attributes": [
-        { "name": "memoryTier", "value": "T1" },
-        { "name": "status", "value": "ACTIVE" },
-        { "name": "lastSummaryAt", "value": "2026-10-13" }
+        {
+          "name": "memoryTier",
+          "value": "T1"
+        },
+        {
+          "name": "status",
+          "value": "ACTIVE"
+        },
+        {
+          "name": "lastSummaryAt",
+          "value": "2026-10-13"
+        }
       ]
     },
     {
@@ -34,7 +52,13 @@
       "id": "idpdv-src-app",
       "name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
       "type": "Business Object",
-      "description": "待移植的开源安卓应用（reference system）。作为 Spec 源，需抽取其功能/界面/数据为需求与用例。"
+      "description": "待移植的开源安卓应用（reference system）。作为 Spec 源，需抽取其功能/界面/数据为需求与用例。",
+      "subdiagram_views": [
+        {
+          "view_id": "view-srcapp-capability-baseline",
+          "view_name": "源应用可移植能力基线"
+        }
+      ]
     },
     {
       "id": "idpdv-target-sys",
@@ -46,7 +70,13 @@
       "id": "stage-s1",
       "name": "1 领域分析与方案设计（1.9.3.1 / Charter）",
       "type": "IPD 阶段",
-      "description": "IPD 全量设计阶段一：领域分析与方案设计，关口 Charter。"
+      "description": "IPD 全量设计阶段一：领域分析与方案设计，关口 Charter。",
+      "subdiagram_views": [
+        {
+          "view_id": "view-stage-s1-domain",
+          "view_name": "阶段一：领域分析与方案设计"
+        }
+      ]
     },
     {
       "id": "stage-s2",
@@ -101,6 +131,96 @@
       "name": "TR6 技术评审点",
       "type": "技术评审点",
       "description": "发布评审关口。"
+    },
+    {
+      "description": "IPD 活动（1.9.3.1）：收集并分析利益相关者对鸿蒙待办应用的需求，产出原始需求 RR-001。",
+      "id": "act-stakeholder-req",
+      "name": "利益相关者需求分析",
+      "type": "IPD 活动"
+    },
+    {
+      "description": "IPD 活动（1.9.3.1）：对源 Todo 应用进行领域分析，产出待办任务管理领域架构与关键场景。",
+      "id": "act-domain-analysis",
+      "name": "领域分析",
+      "type": "IPD 活动"
+    },
+    {
+      "description": "IPD 活动（1.9.3.1）：设计移植方案，使初始需求 IR-001/IR-002 具备实现路径。",
+      "id": "act-solution-design",
+      "name": "方案设计",
+      "type": "IPD 活动"
+    },
+    {
+      "description": "阶段一产出的领域架构：待办任务（Task：标题/描述/完成态）及其生命周期、列表筛选与进度统计的领域模型。",
+      "id": "dom-arch-todo",
+      "name": "待办任务管理领域架构",
+      "type": "领域架构"
+    },
+    {
+      "description": "关键场景：用户浏览待办列表，并按全部/未完成/已完成筛选。",
+      "id": "scn-list-filter",
+      "name": "场景：浏览与筛选待办列表",
+      "type": "场景"
+    },
+    {
+      "description": "关键场景：用户新增或编辑待办任务（标题与描述均非空校验）。",
+      "id": "scn-add-edit",
+      "name": "场景：新增或编辑待办任务",
+      "type": "场景"
+    },
+    {
+      "description": "关键场景：用户将待办标记为完成或重新激活。",
+      "id": "scn-complete",
+      "name": "场景：完成或激活待办任务",
+      "type": "场景"
+    },
+    {
+      "description": "关键场景：用户查看活跃/已完成任务占比统计。",
+      "id": "scn-stats",
+      "name": "场景：查看待办进度统计",
+      "type": "场景"
+    },
+    {
+      "description": "利益相关者原始需求（RR）：将开源 Android 示例应用 android/architecture-samples（Todo）移植为可在 HarmonyOS 运行的待办应用。",
+      "id": "rr-001",
+      "name": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用",
+      "type": "需求"
+    },
+    {
+      "description": "初始需求（IR-001，由 RR-001 派生）：支持待办任务的全生命周期管理（创建/编辑/查看/完成态切换/删除）。",
+      "id": "ir-001",
+      "name": "IR-001 初始需求：待办任务全生命周期管理",
+      "type": "需求"
+    },
+    {
+      "description": "初始需求（IR-002，由 RR-001 派生）：支持待办列表筛选（全部/未完成/已完成）与进度统计。",
+      "id": "ir-002",
+      "name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "type": "需求"
+    },
+    {
+      "description": "源应用可移植能力：待办任务的创建、查询、编辑与删除。",
+      "id": "cap-task-crud",
+      "name": "业务功能：待办任务增删改查",
+      "type": "业务功能"
+    },
+    {
+      "description": "源应用可移植能力：待办任务的完成/激活状态切换。",
+      "id": "cap-task-status",
+      "name": "业务功能：待办任务完成/激活状态切换",
+      "type": "业务功能"
+    },
+    {
+      "description": "源应用可移植能力：待办列表筛选与活跃/完成占比统计。",
+      "id": "cap-filter-stats",
+      "name": "业务功能：待办列表筛选与进度统计",
+      "type": "业务功能"
+    },
+    {
+      "description": "源应用可移植能力：本地持久化（Room）与远端同步（fake network）的离线优先数据层。",
+      "id": "cap-local-persist",
+      "name": "业务功能：本地持久化与远端同步",
+      "type": "业务功能"
     }
   ],
   "relationships": [
@@ -183,6 +303,306 @@
       "target_id": "stage-s4",
       "target_name": "4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）",
       "statement": "TR4A 技术评审点 --(Triggering)--> 4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）"
+    },
+    {
+      "id": "rc-s1-stakeholder",
+      "name": "组成",
+      "source_id": "stage-s1",
+      "source_name": "1 领域分析与方案设计（1.9.3.1 / Charter）",
+      "statement": "1 领域分析与方案设计（1.9.3.1 / Charter） --(Composition)--> 利益相关者需求分析",
+      "target_id": "act-stakeholder-req",
+      "target_name": "利益相关者需求分析",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-s1-domain",
+      "name": "组成",
+      "source_id": "stage-s1",
+      "source_name": "1 领域分析与方案设计（1.9.3.1 / Charter）",
+      "statement": "1 领域分析与方案设计（1.9.3.1 / Charter） --(Composition)--> 领域分析",
+      "target_id": "act-domain-analysis",
+      "target_name": "领域分析",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-s1-solution",
+      "name": "组成",
+      "source_id": "stage-s1",
+      "source_name": "1 领域分析与方案设计（1.9.3.1 / Charter）",
+      "statement": "1 领域分析与方案设计（1.9.3.1 / Charter） --(Composition)--> 方案设计",
+      "target_id": "act-solution-design",
+      "target_name": "方案设计",
+      "type": "Composition"
+    },
+    {
+      "id": "rr-stakeholder-rr001",
+      "name": "实现",
+      "source_id": "act-stakeholder-req",
+      "source_name": "利益相关者需求分析",
+      "statement": "利益相关者需求分析 --(Realization)--> RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用",
+      "target_id": "rr-001",
+      "target_name": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用",
+      "type": "Realization"
+    },
+    {
+      "id": "rr-solution-ir001",
+      "name": "实现",
+      "source_id": "act-solution-design",
+      "source_name": "方案设计",
+      "statement": "方案设计 --(Realization)--> IR-001 初始需求：待办任务全生命周期管理",
+      "target_id": "ir-001",
+      "target_name": "IR-001 初始需求：待办任务全生命周期管理",
+      "type": "Realization"
+    },
+    {
+      "id": "rr-solution-ir002",
+      "name": "实现",
+      "source_id": "act-solution-design",
+      "source_name": "方案设计",
+      "statement": "方案设计 --(Realization)--> IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "target_id": "ir-002",
+      "target_name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "type": "Realization"
+    },
+    {
+      "id": "ra-domain-arch",
+      "name": "访问",
+      "source_id": "act-domain-analysis",
+      "source_name": "领域分析",
+      "statement": "领域分析 --(Access)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "Access"
+    },
+    {
+      "id": "ra-domain-scn-list",
+      "name": "访问",
+      "source_id": "act-domain-analysis",
+      "source_name": "领域分析",
+      "statement": "领域分析 --(Access)--> 场景：浏览与筛选待办列表",
+      "target_id": "scn-list-filter",
+      "target_name": "场景：浏览与筛选待办列表",
+      "type": "Access"
+    },
+    {
+      "id": "ra-domain-scn-addedit",
+      "name": "访问",
+      "source_id": "act-domain-analysis",
+      "source_name": "领域分析",
+      "statement": "领域分析 --(Access)--> 场景：新增或编辑待办任务",
+      "target_id": "scn-add-edit",
+      "target_name": "场景：新增或编辑待办任务",
+      "type": "Access"
+    },
+    {
+      "id": "ra-domain-scn-complete",
+      "name": "访问",
+      "source_id": "act-domain-analysis",
+      "source_name": "领域分析",
+      "statement": "领域分析 --(Access)--> 场景：完成或激活待办任务",
+      "target_id": "scn-complete",
+      "target_name": "场景：完成或激活待办任务",
+      "type": "Access"
+    },
+    {
+      "id": "ra-domain-scn-stats",
+      "name": "访问",
+      "source_id": "act-domain-analysis",
+      "source_name": "领域分析",
+      "statement": "领域分析 --(Access)--> 场景：查看待办进度统计",
+      "target_id": "scn-stats",
+      "target_name": "场景：查看待办进度统计",
+      "type": "Access"
+    },
+    {
+      "id": "ra-solution-arch",
+      "name": "访问",
+      "source_id": "act-solution-design",
+      "source_name": "方案设计",
+      "statement": "方案设计 --(Access)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "Access"
+    },
+    {
+      "id": "rd-rr001-ir001",
+      "name": "派生",
+      "source_id": "rr-001",
+      "source_name": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用",
+      "statement": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用 --(派生)--> IR-001 初始需求：待办任务全生命周期管理",
+      "target_id": "ir-001",
+      "target_name": "IR-001 初始需求：待办任务全生命周期管理",
+      "type": "派生"
+    },
+    {
+      "id": "rd-rr001-ir002",
+      "name": "派生",
+      "source_id": "rr-001",
+      "source_name": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用",
+      "statement": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用 --(派生)--> IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "target_id": "ir-002",
+      "target_name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir001-scnaddedit",
+      "name": "派生",
+      "source_id": "ir-001",
+      "source_name": "IR-001 初始需求：待办任务全生命周期管理",
+      "statement": "IR-001 初始需求：待办任务全生命周期管理 --(派生)--> 场景：新增或编辑待办任务",
+      "target_id": "scn-add-edit",
+      "target_name": "场景：新增或编辑待办任务",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir001-scncomplete",
+      "name": "派生",
+      "source_id": "ir-001",
+      "source_name": "IR-001 初始需求：待办任务全生命周期管理",
+      "statement": "IR-001 初始需求：待办任务全生命周期管理 --(派生)--> 场景：完成或激活待办任务",
+      "target_id": "scn-complete",
+      "target_name": "场景：完成或激活待办任务",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir002-scnlist",
+      "name": "派生",
+      "source_id": "ir-002",
+      "source_name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "statement": "IR-002 初始需求：待办任务的视图筛选与进度统计 --(派生)--> 场景：浏览与筛选待办列表",
+      "target_id": "scn-list-filter",
+      "target_name": "场景：浏览与筛选待办列表",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir002-scnstats",
+      "name": "派生",
+      "source_id": "ir-002",
+      "source_name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "statement": "IR-002 初始需求：待办任务的视图筛选与进度统计 --(派生)--> 场景：查看待办进度统计",
+      "target_id": "scn-stats",
+      "target_name": "场景：查看待办进度统计",
+      "type": "派生"
+    },
+    {
+      "id": "rb-scnlist-arch",
+      "name": "归属",
+      "source_id": "scn-list-filter",
+      "source_name": "场景：浏览与筛选待办列表",
+      "statement": "场景：浏览与筛选待办列表 --(归属)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "归属"
+    },
+    {
+      "id": "rb-scnaddedit-arch",
+      "name": "归属",
+      "source_id": "scn-add-edit",
+      "source_name": "场景：新增或编辑待办任务",
+      "statement": "场景：新增或编辑待办任务 --(归属)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "归属"
+    },
+    {
+      "id": "rb-scncomplete-arch",
+      "name": "归属",
+      "source_id": "scn-complete",
+      "source_name": "场景：完成或激活待办任务",
+      "statement": "场景：完成或激活待办任务 --(归属)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "归属"
+    },
+    {
+      "id": "rb-scnstats-arch",
+      "name": "归属",
+      "source_id": "scn-stats",
+      "source_name": "场景：查看待办进度统计",
+      "statement": "场景：查看待办进度统计 --(归属)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "归属"
+    },
+    {
+      "id": "ras-srcapp-crud",
+      "name": "关联",
+      "source_id": "idpdv-src-app",
+      "source_name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
+      "statement": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0） --(Association)--> 业务功能：待办任务增删改查",
+      "target_id": "cap-task-crud",
+      "target_name": "业务功能：待办任务增删改查",
+      "type": "Association"
+    },
+    {
+      "id": "ras-srcapp-status",
+      "name": "关联",
+      "source_id": "idpdv-src-app",
+      "source_name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
+      "statement": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0） --(Association)--> 业务功能：待办任务完成/激活状态切换",
+      "target_id": "cap-task-status",
+      "target_name": "业务功能：待办任务完成/激活状态切换",
+      "type": "Association"
+    },
+    {
+      "id": "ras-srcapp-filterstats",
+      "name": "关联",
+      "source_id": "idpdv-src-app",
+      "source_name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
+      "statement": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0） --(Association)--> 业务功能：待办列表筛选与进度统计",
+      "target_id": "cap-filter-stats",
+      "target_name": "业务功能：待办列表筛选与进度统计",
+      "type": "Association"
+    },
+    {
+      "id": "ras-srcapp-persist",
+      "name": "关联",
+      "source_id": "idpdv-src-app",
+      "source_name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
+      "statement": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0） --(Association)--> 业务功能：本地持久化与远端同步",
+      "target_id": "cap-local-persist",
+      "target_name": "业务功能：本地持久化与远端同步",
+      "type": "Association"
+    },
+    {
+      "id": "rac-crud-arch",
+      "name": "访问",
+      "source_id": "cap-task-crud",
+      "source_name": "业务功能：待办任务增删改查",
+      "statement": "业务功能：待办任务增删改查 --(Access)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "Access"
+    },
+    {
+      "id": "rac-status-arch",
+      "name": "访问",
+      "source_id": "cap-task-status",
+      "source_name": "业务功能：待办任务完成/激活状态切换",
+      "statement": "业务功能：待办任务完成/激活状态切换 --(Access)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "Access"
+    },
+    {
+      "id": "rac-filterstats-arch",
+      "name": "访问",
+      "source_id": "cap-filter-stats",
+      "source_name": "业务功能：待办列表筛选与进度统计",
+      "statement": "业务功能：待办列表筛选与进度统计 --(Access)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "Access"
+    },
+    {
+      "id": "rac-persist-arch",
+      "name": "访问",
+      "source_id": "cap-local-persist",
+      "source_name": "业务功能：本地持久化与远端同步",
+      "statement": "业务功能：本地持久化与远端同步 --(Access)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "Access"
     }
   ],
   "views": [
@@ -222,7 +642,9 @@
       "view_name": "项目经理工作记忆",
       "parent_element_id": "project-manager-001",
       "parent_element_name": "项目经理",
-      "included_elements": ["pm-wm-001"],
+      "included_elements": [
+        "pm-wm-001"
+      ],
       "included_relationships": []
     },
     {
@@ -240,6 +662,74 @@
       "parent_element_name": "项目经理",
       "included_elements": [],
       "included_relationships": []
+    },
+    {
+      "view_id": "view-stage-s1-domain",
+      "view_name": "阶段一：领域分析与方案设计",
+      "parent_element_id": "stage-s1",
+      "description": "阶段一（1.9.3.1）领域分析与方案设计的活动与领域资产视图：3 个 IPD 活动（利益相关者需求分析/领域分析/方案设计）及其产出（领域架构、关键场景、RR/IR 需求）。",
+      "included_elements": [
+        "act-stakeholder-req",
+        "act-domain-analysis",
+        "act-solution-design",
+        "dom-arch-todo",
+        "scn-list-filter",
+        "scn-add-edit",
+        "scn-complete",
+        "scn-stats",
+        "rr-001",
+        "ir-001",
+        "ir-002",
+        "stage-s1"
+      ],
+      "included_relationships": [
+        "rc-s1-stakeholder",
+        "rc-s1-domain",
+        "rc-s1-solution",
+        "rr-stakeholder-rr001",
+        "rr-solution-ir001",
+        "rr-solution-ir002",
+        "ra-domain-arch",
+        "ra-domain-scn-list",
+        "ra-domain-scn-addedit",
+        "ra-domain-scn-complete",
+        "ra-domain-scn-stats",
+        "ra-solution-arch",
+        "rd-rr001-ir001",
+        "rd-rr001-ir002",
+        "rd-ir001-scnaddedit",
+        "rd-ir001-scncomplete",
+        "rd-ir002-scnlist",
+        "rd-ir002-scnstats",
+        "rb-scnlist-arch",
+        "rb-scnaddedit-arch",
+        "rb-scncomplete-arch",
+        "rb-scnstats-arch"
+      ]
+    },
+    {
+      "view_id": "view-srcapp-capability-baseline",
+      "view_name": "源应用可移植能力基线",
+      "parent_element_id": "idpdv-src-app",
+      "description": "源应用可移植能力基线视图：源 Android 应用（Todo）及其可移植的业务功能能力。",
+      "included_elements": [
+        "dom-arch-todo",
+        "cap-task-crud",
+        "cap-task-status",
+        "cap-filter-stats",
+        "cap-local-persist",
+        "idpdv-src-app"
+      ],
+      "included_relationships": [
+        "ras-srcapp-crud",
+        "ras-srcapp-status",
+        "ras-srcapp-filterstats",
+        "ras-srcapp-persist",
+        "rac-crud-arch",
+        "rac-status-arch",
+        "rac-filterstats-arch",
+        "rac-persist-arch"
+      ]
     }
   ]
 }
