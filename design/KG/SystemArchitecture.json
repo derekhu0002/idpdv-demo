@@ -58,6 +58,13 @@
           "view_id": "view-srcapp-capability-baseline",
           "view_name": "源应用可移植能力基线"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "加入 source-app 可移植能力基线视图 view-srcapp-capability-baseline"
+        }
       ]
     },
     {
@@ -75,6 +82,13 @@
         {
           "view_id": "view-stage-s1-domain",
           "view_name": "阶段一：领域分析与方案设计"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "阶段一(1.9.3.1/Charter)领域分析与方案设计建模；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
         }
       ]
     },
@@ -136,91 +150,196 @@
       "description": "IPD 活动（1.9.3.1）：收集并分析利益相关者对鸿蒙待办应用的需求，产出原始需求 RR-001。",
       "id": "act-stakeholder-req",
       "name": "利益相关者需求分析",
-      "type": "IPD 活动"
+      "type": "IPD 活动",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 IPD 活动 利益相关者需求分析 (stage-s1 Composition)"
+        }
+      ]
     },
     {
       "description": "IPD 活动（1.9.3.1）：对源 Todo 应用进行领域分析，产出待办任务管理领域架构与关键场景。",
       "id": "act-domain-analysis",
       "name": "领域分析",
-      "type": "IPD 活动"
+      "type": "IPD 活动",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 IPD 活动 领域分析 (stage-s1 Composition)"
+        }
+      ]
     },
     {
       "description": "IPD 活动（1.9.3.1）：设计移植方案，使初始需求 IR-001/IR-002 具备实现路径。",
       "id": "act-solution-design",
       "name": "方案设计",
-      "type": "IPD 活动"
+      "type": "IPD 活动",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 IPD 活动 方案设计 (stage-s1 Composition)"
+        }
+      ]
     },
     {
       "description": "阶段一产出的领域架构：待办任务（Task：标题/描述/完成态）及其生命周期、列表筛选与进度统计的领域模型。",
       "id": "dom-arch-todo",
       "name": "待办任务管理领域架构",
-      "type": "领域架构"
+      "type": "领域架构",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 领域架构 待办任务管理领域架构 (阶段一产出)"
+        }
+      ]
     },
     {
       "description": "关键场景：用户浏览待办列表，并按全部/未完成/已完成筛选。",
       "id": "scn-list-filter",
       "name": "场景：浏览与筛选待办列表",
-      "type": "场景"
+      "type": "场景",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 场景 浏览与筛选待办列表"
+        }
+      ]
     },
     {
       "description": "关键场景：用户新增或编辑待办任务（标题与描述均非空校验）。",
       "id": "scn-add-edit",
       "name": "场景：新增或编辑待办任务",
-      "type": "场景"
+      "type": "场景",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 场景 新增或编辑待办任务"
+        }
+      ]
     },
     {
       "description": "关键场景：用户将待办标记为完成或重新激活。",
       "id": "scn-complete",
       "name": "场景：完成或激活待办任务",
-      "type": "场景"
+      "type": "场景",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 场景 完成或激活待办任务"
+        }
+      ]
     },
     {
       "description": "关键场景：用户查看活跃/已完成任务占比统计。",
       "id": "scn-stats",
       "name": "场景：查看待办进度统计",
-      "type": "场景"
+      "type": "场景",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 场景 查看待办进度统计"
+        }
+      ]
     },
     {
       "description": "利益相关者原始需求（RR）：将开源 Android 示例应用 android/architecture-samples（Todo）移植为可在 HarmonyOS 运行的待办应用。",
       "id": "rr-001",
       "name": "RR-001 原始需求：将 Todo 示例应用移植为 HarmonyOS 待办应用",
-      "type": "需求"
+      "type": "需求",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 RR-001 原始需求"
+        }
+      ]
     },
     {
       "description": "初始需求（IR-001，由 RR-001 派生）：支持待办任务的全生命周期管理（创建/编辑/查看/完成态切换/删除）。",
       "id": "ir-001",
       "name": "IR-001 初始需求：待办任务全生命周期管理",
-      "type": "需求"
+      "type": "需求",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 IR-001 初始需求"
+        }
+      ]
     },
     {
       "description": "初始需求（IR-002，由 RR-001 派生）：支持待办列表筛选（全部/未完成/已完成）与进度统计。",
       "id": "ir-002",
       "name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
-      "type": "需求"
+      "type": "需求",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 IR-002 初始需求"
+        }
+      ]
     },
     {
       "description": "源应用可移植能力：待办任务的创建、查询、编辑与删除。",
       "id": "cap-task-crud",
       "name": "业务功能：待办任务增删改查",
-      "type": "业务功能"
+      "type": "业务功能",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 可移植能力 待办任务增删改查"
+        }
+      ]
     },
     {
       "description": "源应用可移植能力：待办任务的完成/激活状态切换。",
       "id": "cap-task-status",
       "name": "业务功能：待办任务完成/激活状态切换",
-      "type": "业务功能"
+      "type": "业务功能",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 可移植能力 完成/激活状态切换"
+        }
+      ]
     },
     {
       "description": "源应用可移植能力：待办列表筛选与活跃/完成占比统计。",
       "id": "cap-filter-stats",
       "name": "业务功能：待办列表筛选与进度统计",
-      "type": "业务功能"
+      "type": "业务功能",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 可移植能力 列表筛选与进度统计"
+        }
+      ]
     },
     {
       "description": "源应用可移植能力：本地持久化（Room）与远端同步（fake network）的离线优先数据层。",
       "id": "cap-local-persist",
       "name": "业务功能：本地持久化与远端同步",
-      "type": "业务功能"
+      "type": "业务功能",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "836cae6",
+          "description": "新增 可移植能力 本地持久化与远端同步"
+        }
+      ]
     }
   ],
   "relationships": [
