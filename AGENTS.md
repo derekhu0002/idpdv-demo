@@ -29,7 +29,12 @@
   抽取其*功能、界面、数据模型、交互*为需求与用例，再实现。
 - **工具链**：DevEco Studio `C:\Program Files\Huawei\DevEco Studio`；SDK 自带 `node`/`ohpm`/`hvigorw`/`hdc`；
   构建命令经 `hvigorw`；运行/安装经 `hdc`。
-- **模拟器风险**：系统镜像可能未安装，需华为账号在 DevEco 内下载；若不可用，须明确报告，不得假装已运行。
+- **本机实测路径**（已勘察）：
+  - DevEco Studio 安装：`C:\Program Files\Huawei\DevEco Studio`（自带 `tools\hvigor`、`tools\ohpm`、`tools\hdc`、`tools\emulator\Emulator.exe`）。
+  - 用户级 SDK：`D:\tools\Huawei\Sdk`（含 `system-image`、`licenses`）。
+  - DevEco 用户数据：`D:\tools\Huawei\DevEcoStudio6.1`。
+  - **模拟器已部署**：`D:\tools\Huawei\Emulator\deployed`（设备含 `Pura 901`（已部署 `system.img.qcow2`/`vendor.img.qcow2`/`userdata.img.qcow2`/`cache.img.qcow2`）、`Mate X7`、`MatePad Pro 13`、`MateBook Pro`）。
+- **模拟器风险**：镜像已部署，但启动依赖主机虚拟化（Hyper-V/WHPX 等）；若启动失败须明确报告，不得假装已运行。
 
 ## 3. IPD 全量设计四阶段（作业主线）
 
