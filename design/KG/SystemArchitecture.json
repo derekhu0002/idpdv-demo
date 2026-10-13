@@ -1,0 +1,245 @@
+{
+  "name": "System",
+  "description": "IDPDV demo —— 将一个开源安卓应用移植（重写）为鸿蒙应用。ArchiMate 3.2 + IPD 研发领域扩展；工作区 bootstrap 种子图（后续一律由本工作区自己的 ARGO MCP 读写）。",
+  "elements": [
+    {
+      "id": "project-manager-001",
+      "name": "项目经理",
+      "type": "Business Actor",
+      "description": "本项目默认主 Business Actor：负责人与主 Agent 身份。未指定角色时默认以项目经理身份对话、规划与决策，并按需把工作委派给项目内的其他 Business Actor。",
+      "subdiagram_views": [
+        { "view_id": "project-manager-001-wm-001", "view_name": "项目经理工作记忆" },
+        { "view_id": "project-manager-001-ltm-001", "view_name": "项目经理长期记忆" },
+        { "view_id": "project-manager-001-archive-001", "view_name": "项目经理档案" }
+      ]
+    },
+    {
+      "id": "pm-wm-001",
+      "name": "项目经理 T1 工作记忆（会话摘要）",
+      "type": "Business Object",
+      "description": "【T1 会话摘要】2026-10-13 工作区 bootstrap：IDPDV demo 项目建立，目标为将开源安卓应用 android/architecture-samples（Todo）移植为鸿蒙应用（ArkTS/ArkUI），采用 IPD 全量设计四阶段推进。待补充。",
+      "attributes": [
+        { "name": "memoryTier", "value": "T1" },
+        { "name": "status", "value": "ACTIVE" },
+        { "name": "lastSummaryAt", "value": "2026-10-13" }
+      ]
+    },
+    {
+      "id": "idpdv-project",
+      "name": "IDPDV demo 项目（开源安卓应用移植为鸿蒙应用）",
+      "type": "Grouping",
+      "description": "目标：将 GitHub 开源安卓应用 android/architecture-samples（Todo，Apache-2.0）移植（重写）为鸿蒙应用（ArkTS/ArkUI），按 IPD 全量设计四阶段作业，最终在本机鸿蒙模拟器运行并交付 HAP。"
+    },
+    {
+      "id": "idpdv-src-app",
+      "name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
+      "type": "Business Object",
+      "description": "待移植的开源安卓应用（reference system）。作为 Spec 源，需抽取其功能/界面/数据为需求与用例。"
+    },
+    {
+      "id": "idpdv-target-sys",
+      "name": "目标系统：鸿蒙应用（HarmonyOS / ArkTS·ArkUI）",
+      "type": "目标系统",
+      "description": "移植产物：运行于 HarmonyOS 的目标应用（system of interest）。"
+    },
+    {
+      "id": "stage-s1",
+      "name": "1 领域分析与方案设计（1.9.3.1 / Charter）",
+      "type": "IPD 阶段",
+      "description": "IPD 全量设计阶段一：领域分析与方案设计，关口 Charter。"
+    },
+    {
+      "id": "stage-s2",
+      "name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "type": "IPD 阶段",
+      "description": "IPD 全量设计阶段二：系统需求分析，关口 TR1。"
+    },
+    {
+      "id": "stage-s3",
+      "name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "type": "IPD 阶段",
+      "description": "IPD 全量设计阶段三：架构与系统设计，关口 TR2。"
+    },
+    {
+      "id": "stage-s4",
+      "name": "4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）",
+      "type": "IPD 阶段",
+      "description": "IPD 全量设计阶段四：架构与设计实现支撑，关口 TR4A/TR5/TR6。"
+    },
+    {
+      "id": "rp-charter",
+      "name": "Charter 决策评审点",
+      "type": "决策评审点",
+      "description": "阶段一末的决策评审（Charter），放行进入系统需求分析。"
+    },
+    {
+      "id": "rp-tr1",
+      "name": "TR1 技术评审点",
+      "type": "技术评审点",
+      "description": "系统需求评审关口。"
+    },
+    {
+      "id": "rp-tr2",
+      "name": "TR2 技术评审点",
+      "type": "技术评审点",
+      "description": "架构与系统设计评审关口。"
+    },
+    {
+      "id": "rp-tr4a",
+      "name": "TR4A 技术评审点",
+      "type": "技术评审点",
+      "description": "实现支撑评审关口。"
+    },
+    {
+      "id": "rp-tr5",
+      "name": "TR5 技术评审点",
+      "type": "技术评审点",
+      "description": "测试/验证评审关口。"
+    },
+    {
+      "id": "rp-tr6",
+      "name": "TR6 技术评审点",
+      "type": "技术评审点",
+      "description": "发布评审关口。"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "r-proj-src",
+      "name": "移植来源",
+      "type": "Association",
+      "source_id": "idpdv-project",
+      "source_name": "IDPDV demo 项目（开源安卓应用移植为鸿蒙应用）",
+      "target_id": "idpdv-src-app",
+      "target_name": "源 Android 应用：android/architecture-samples（Todo，Apache-2.0）",
+      "statement": "IDPDV demo 项目（开源安卓应用移植为鸿蒙应用） --(Association)--> 源 Android 应用：android/architecture-samples（Todo，Apache-2.0）"
+    },
+    {
+      "id": "r-proj-target",
+      "name": "移植目标",
+      "type": "Association",
+      "source_id": "idpdv-project",
+      "source_name": "IDPDV demo 项目（开源安卓应用移植为鸿蒙应用）",
+      "target_id": "idpdv-target-sys",
+      "target_name": "目标系统：鸿蒙应用（HarmonyOS / ArkTS·ArkUI）",
+      "statement": "IDPDV demo 项目（开源安卓应用移植为鸿蒙应用） --(Association)--> 目标系统：鸿蒙应用（HarmonyOS / ArkTS·ArkUI）"
+    },
+    {
+      "id": "r-s1-s2",
+      "name": "阶段推进",
+      "type": "Triggering",
+      "source_id": "stage-s1",
+      "source_name": "1 领域分析与方案设计（1.9.3.1 / Charter）",
+      "target_id": "stage-s2",
+      "target_name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "statement": "1 领域分析与方案设计（1.9.3.1 / Charter） --(Triggering)--> 2 系统需求分析（1.9.3.2 / TR1）"
+    },
+    {
+      "id": "r-s2-s3",
+      "name": "阶段推进",
+      "type": "Triggering",
+      "source_id": "stage-s2",
+      "source_name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "target_id": "stage-s3",
+      "target_name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "statement": "2 系统需求分析（1.9.3.2 / TR1） --(Triggering)--> 3 架构与系统设计（1.9.3.3 / TR2）"
+    },
+    {
+      "id": "r-s3-s4",
+      "name": "阶段推进",
+      "type": "Triggering",
+      "source_id": "stage-s3",
+      "source_name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "target_id": "stage-s4",
+      "target_name": "4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）",
+      "statement": "3 架构与系统设计（1.9.3.3 / TR2） --(Triggering)--> 4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）"
+    },
+    {
+      "id": "r-charter-s2",
+      "name": "评审放行",
+      "type": "Triggering",
+      "source_id": "rp-charter",
+      "source_name": "Charter 决策评审点",
+      "target_id": "stage-s2",
+      "target_name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "statement": "Charter 决策评审点 --(Triggering)--> 2 系统需求分析（1.9.3.2 / TR1）"
+    },
+    {
+      "id": "r-tr2-s3",
+      "name": "评审放行",
+      "type": "Triggering",
+      "source_id": "rp-tr2",
+      "source_name": "TR2 技术评审点",
+      "target_id": "stage-s3",
+      "target_name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "statement": "TR2 技术评审点 --(Triggering)--> 3 架构与系统设计（1.9.3.3 / TR2）"
+    },
+    {
+      "id": "r-tr4a-s4",
+      "name": "评审放行",
+      "type": "Triggering",
+      "source_id": "rp-tr4a",
+      "source_name": "TR4A 技术评审点",
+      "target_id": "stage-s4",
+      "target_name": "4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）",
+      "statement": "TR4A 技术评审点 --(Triggering)--> 4 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）"
+    }
+  ],
+  "views": [
+    {
+      "view_id": "170",
+      "view_name": "SystemArchitecture",
+      "description": "顶层根视图 SystemArchitecture。",
+      "included_elements": [
+        "project-manager-001",
+        "idpdv-project",
+        "idpdv-src-app",
+        "idpdv-target-sys",
+        "stage-s1",
+        "stage-s2",
+        "stage-s3",
+        "stage-s4",
+        "rp-charter",
+        "rp-tr1",
+        "rp-tr2",
+        "rp-tr4a",
+        "rp-tr5",
+        "rp-tr6"
+      ],
+      "included_relationships": [
+        "r-proj-src",
+        "r-proj-target",
+        "r-s1-s2",
+        "r-s2-s3",
+        "r-s3-s4",
+        "r-charter-s2",
+        "r-tr2-s3",
+        "r-tr4a-s4"
+      ]
+    },
+    {
+      "view_id": "project-manager-001-wm-001",
+      "view_name": "项目经理工作记忆",
+      "parent_element_id": "project-manager-001",
+      "parent_element_name": "项目经理",
+      "included_elements": ["pm-wm-001"],
+      "included_relationships": []
+    },
+    {
+      "view_id": "project-manager-001-ltm-001",
+      "view_name": "项目经理长期记忆",
+      "parent_element_id": "project-manager-001",
+      "parent_element_name": "项目经理",
+      "included_elements": [],
+      "included_relationships": []
+    },
+    {
+      "view_id": "project-manager-001-archive-001",
+      "view_name": "项目经理档案",
+      "parent_element_id": "project-manager-001",
+      "parent_element_name": "项目经理",
+      "included_elements": [],
+      "included_relationships": []
+    }
+  ]
+}

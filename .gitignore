@@ -1,0 +1,20 @@
+# ARGO transient workspace
+.argo/temp/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# HarmonyOS / DevEco Studio build artifacts
+.hvigor/
+.idea/
+build/
+oh_modules/
+local.properties
+*.hap
+*.har
+*.hsp
+
+# OS
+.DS_Store
+Thumbs.db

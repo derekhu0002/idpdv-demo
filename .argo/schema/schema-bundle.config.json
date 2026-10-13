@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "ipd-dev",
+  "aliases": ["ipd"],
+  "language": "ArchiMate 3.2 + IPD 研发领域扩展",
+  "title": "IPD 研发领域扩展 Schema Bundle",
+  "description": "本仓库的工作区 schema bundle。以内置 `default`（ArchiMate 3.2 + ARGO 扩展）为 base，通过 extends 增量扩展 IPD 领域本体（元素类型 + 域关系）。扩展清单来源：意图图元素 ipd-ontology-catalog-v0-1（IPD 本体目录 v0.1，草案·待公司校验）与 IPD 全流程模型（元素 ipd-process-model）。addElementTypes 的 class 字段把领域类型映射到 ArchiMate 基类，从而复用基类的端点矩阵。v0.2 追加『作业对象变化/影响视角』7 类型（场景/用例/功能影响点/设计方案/设计决策/部件/功能）与 2 域关系（影响/交互）；v0.3 追加『全量设计』数据资产 11 类型（特性/领域架构/领域系统元素/实现元素/逻辑元素/硬件单元/软件包/软件单元/测试因子/补丁/测试结果）。",
+  "extends": "default",
+  "actorElementType": "Business Actor",
+  "addElementTypes": {
+    "IPD 阶段": { "layer": "Business", "aspect": "Behavior", "class": "BusinessProcess" },
+    "IPD 活动": { "layer": "Business", "aspect": "Behavior", "class": "BusinessFunction" },
+    "决策评审点": { "layer": "Business", "aspect": "Behavior", "class": "BusinessEvent" },
+    "技术评审点": { "layer": "Business", "aspect": "Behavior", "class": "BusinessEvent" },
+    "里程碑": { "layer": "Implementation & Migration", "aspect": "Behavior", "class": "ImplementationEvent" },
+    "退出准则": { "layer": "Motivation", "aspect": "Motivation", "class": "Constraint" },
+    "交付物": { "layer": "Implementation & Migration", "aspect": "Passive Structure", "class": "Deliverable" },
+    "需求": { "layer": "Motivation", "aspect": "Motivation", "class": "Requirement" },
+    "设计规格": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "测试用例": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "缺陷": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "配置项": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "变更请求": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "工作分解": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "风险": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "场景": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "用例": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "功能影响点": { "layer": "Motivation", "aspect": "Motivation", "class": "Requirement" },
+    "设计方案": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "设计决策": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "部件": { "layer": "Business", "aspect": "Active Structure", "class": "BusinessCollaboration" },
+    "功能": { "layer": "Business", "aspect": "Behavior", "class": "BusinessFunction" },
+    "特性": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "领域架构": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "领域系统元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "实现元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "逻辑元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "硬件单元": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "软件包": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "软件单元": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "测试因子": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "补丁": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "测试结果": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "目标系统": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "系统": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "系统元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "软件元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "硬件元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "软件实现元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "硬件实现元素": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "上下文": { "layer": "Business", "aspect": "Passive Structure", "class": "BusinessObject" },
+    "业务功能": { "layer": "Business", "aspect": "Behavior", "class": "BusinessFunction" },
+    "DFX功能": { "layer": "Business", "aspect": "Behavior", "class": "BusinessFunction" }
+  },
+  "addRelationships": {
+    "评审": "Custom",
+    "批准": "Custom",
+    "变更": "Custom",
+    "替代": "Custom",
+    "验证": "Custom",
+    "发布": "Custom",
+    "追溯": "Custom",
+    "派生": "Custom",
+    "覆盖": "Custom",
+    "影响": "Custom",
+    "交互": "Custom",
+    "呈现": "Custom",
+    "源于": "Custom",
+    "归属": "Custom",
+    "执行": "Custom",
+    "实现为": "Custom",
+    "归属于": "Custom"
+  },
+  "overrideMatrix": {
+    "评审": {
+      "BusinessProcess": ["BusinessObject", "Requirement", "Deliverable", "Grouping", "BusinessEvent"],
+      "BusinessFunction": ["BusinessObject", "Requirement", "Deliverable", "Grouping", "BusinessEvent"],
+      "BusinessEvent": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessRole": ["BusinessObject", "Requirement", "Deliverable", "Grouping", "BusinessEvent"],
+      "BusinessCollaboration": ["BusinessObject", "Requirement", "Deliverable", "Grouping", "BusinessEvent"],
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Contract", "Representation", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Constraint": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Contract", "Representation", "Grouping", "BusinessProcess", "BusinessFunction", "BusinessEvent", "BusinessRole", "Product"]
+    },
+    "批准": {
+      "BusinessProcess": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessFunction": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessEvent": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessRole": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessCollaboration": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Contract", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Contract", "Grouping", "Product"]
+    },
+    "变更": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "替代": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "验证": {
+      "BusinessProcess": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessFunction": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessEvent": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "发布": {
+      "BusinessProcess": ["BusinessObject", "Deliverable", "Product", "Grouping"],
+      "BusinessFunction": ["BusinessObject", "Deliverable", "Product", "Grouping"],
+      "BusinessEvent": ["BusinessObject", "Deliverable", "Product", "Grouping"],
+      "BusinessObject": ["BusinessObject", "Deliverable", "Product", "Grouping"],
+      "Deliverable": ["BusinessObject", "Deliverable", "Product", "Grouping"],
+      "Grouping": ["BusinessObject", "Deliverable", "Product", "Grouping"]
+    },
+    "追溯": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Constraint": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "派生": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessFunction": ["BusinessObject", "Requirement", "Deliverable", "Grouping", "BusinessFunction"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "覆盖": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "影响": {
+      "BusinessObject": ["BusinessCollaboration", "BusinessFunction", "BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessCollaboration", "BusinessFunction", "BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Deliverable": ["BusinessCollaboration", "BusinessFunction", "BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Grouping": ["BusinessCollaboration", "BusinessFunction", "BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "交互": {
+      "BusinessCollaboration": ["BusinessCollaboration", "BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "BusinessObject": ["BusinessCollaboration", "BusinessObject", "Requirement", "Deliverable", "Grouping"],
+      "Requirement": ["BusinessCollaboration", "BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "呈现": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "源于": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping"]
+    },
+    "归属": {
+      "BusinessObject": ["BusinessObject", "Requirement", "Deliverable", "Grouping", "Stakeholder"]
+    },
+    "执行": {
+      "BusinessObject": ["BusinessFunction", "BusinessInteraction", "BusinessProcess", "BusinessObject", "Grouping"]
+    },
+    "实现为": {
+      "BusinessObject": ["BusinessObject", "Grouping"]
+    },
+    "归属于": {
+      "BusinessFunction": ["BusinessCollaboration", "Grouping"]
+    }
+  },
+  "attributesByElementType": {
+    "目标系统": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "系统": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "系统元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "软件元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "硬件元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "软件实现元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "硬件实现元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "逻辑元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "实现元素": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "软件单元": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "硬件单元": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "功能": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "业务功能": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "DFX功能": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "特性": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "场景": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "用例": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } },
+    "上下文": { "enumByAttr": { "质量属性": ["性能", "成本", "可靠性", "可用性", "功能安全", "可服务性", "节能减排", "可供应性", "可制造性"] } }
+  }
+}
