@@ -5,8 +5,9 @@
 // WHEN  the stage-one (stage-s1) decomposition is inspected
 // THEN  stage-s1 composes the three IPD 活动 (利益相关者需求分析 / 领域分析 / 方案设计),
 //       those activities output a 领域架构, 关键场景 and RR/IR 需求 (Access/Realization),
+//       the 领域架构 composes its 4 关键场景 and is reviewed by the Charter 决策评审点 (评审),
 //       requirements chain RR-001 --派生--> IR-001/IR-002 --派生--> 场景,
-//       a source-app portability capability baseline (业务功能) exists, and
+//       a source-app portability capability baseline (业务功能 --Association--> 领域架构) exists, and
 //       graph invariants still hold (single root view, full view membership, <=15 elements/view).
 //
 // Run whole:      node tests/stage1_domain_analysis.test.js
@@ -77,6 +78,16 @@ function domainChecks() {
   for (const scn of scenarios) {
     check(!!relId('Access', ACT_DOMAIN, scn.id), `missing Access 领域分析 -> ${scn.name}`);
   }
+  // The 领域架构 composes its key 场景 (domain owns its scenarios).
+  if (dom) {
+    for (const scn of scenarios) {
+      check(!!relId('Composition', DOM_ARCH, scn.id),
+        `missing Composition 待办任务管理领域架构 -> ${scn.name}`);
+    }
+  }
+  // Charter 决策评审点 reviews the domain architecture at the stage gate.
+  check(!!relId('评审', 'rp-charter', DOM_ARCH),
+    'missing 评审 Charter 决策评审点 -> 待办任务管理领域架构');
 }
 
 function requirementsChecks() {
@@ -108,7 +119,7 @@ function capabilitiesChecks() {
   const dom = byId.get(DOM_ARCH);
   if (dom) {
     for (const c of caps) {
-      check(!!relId('Access', c.id, DOM_ARCH), `capability ${c.name} must Access the 领域架构`);
+      check(!!relId('Association', c.id, DOM_ARCH), `capability ${c.name} must Associate the 领域架构`);
     }
   }
 }

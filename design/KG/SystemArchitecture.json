@@ -90,6 +90,22 @@
           "value": "836cae6",
           "description": "阶段一(1.9.3.1/Charter)领域分析与方案设计建模；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
         }
+      ],
+      "testcases": [
+        {
+          "Input": "design/KG/SystemArchitecture.json（stage-s1 及其组合/产出关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=activities node tests/stage1_domain_analysis.test.js",
+          "description": "给定 意图图中存在 IPD 阶段 stage-s1；当 检查其组成与产出关系；则 stage-s1 以 Composition 组合 利益相关者需求分析、领域分析、方案设计 三个 IPD 活动，且活动以 Access/Realization 产出领域架构、场景与 RR/IR 需求。",
+          "name": "阶段一分解为三个 IPD 活动",
+          "type": "Acceptance Test"
+        },
+        {
+          "Input": "design/KG/SystemArchitecture.json（views 与成员完整性）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=invariants node tests/stage1_domain_analysis.test.js",
+          "description": "给定 阶段一图谱；当 校验视图不变量；则 恰有一个顶层 SystemArchitecture 视图、每个元素与关系至少属于一个视图、每个视图元素数不超过 15，且两个子视图分别挂载于 stage-s1 与 idpdv-src-app。",
+          "name": "图谱不变量：单一根视图与完整视图归属",
+          "type": "Acceptance Test"
+        }
       ]
     },
     {
@@ -196,6 +212,22 @@
           "value": "836cae6",
           "description": "新增 领域架构 待办任务管理领域架构 (阶段一产出)"
         }
+      ],
+      "testcases": [
+        {
+          "Input": "design/KG/SystemArchitecture.json（dom-arch-todo 及其入出边）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=domain node tests/stage1_domain_analysis.test.js",
+          "description": "给定 领域架构 待办任务管理领域架构 存在；当 检查领域分析与能力基线；则 领域分析 --(Access)--> 领域架构、4 个业务功能 --(Association)--> 领域架构，且领域架构 --(Composition)--> 4 个关键场景。",
+          "name": "领域架构被能力基线关联并由领域分析访问",
+          "type": "Acceptance Test"
+        },
+        {
+          "Input": "design/KG/SystemArchitecture.json（relationships[].statement）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=grammar node tests/stage1_domain_analysis.test.js",
+          "description": "给定 图谱全部关系；当 校验 statement 语法；则 每条关系 statement 恰为 源 --(类型)--> 目标（使用元素名）。",
+          "name": "关系 statement 语法一致",
+          "type": "Acceptance Test"
+        }
       ]
     },
     {
@@ -261,6 +293,15 @@
           "value": "836cae6",
           "description": "新增 RR-001 原始需求"
         }
+      ],
+      "testcases": [
+        {
+          "Input": "design/KG/SystemArchitecture.json（rr-001/ir-001/ir-002 及派生关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=requirements node tests/stage1_domain_analysis.test.js",
+          "description": "给定 原始需求 RR-001 存在；当 追踪需求派生链；则 存在 RR-001 --(派生)--> IR-001 与 RR-001 --(派生)--> IR-002。",
+          "name": "RR-001 派生 IR-001 与 IR-002",
+          "type": "Acceptance Test"
+        }
       ]
     },
     {
@@ -274,6 +315,15 @@
           "value": "836cae6",
           "description": "新增 IR-001 初始需求"
         }
+      ],
+      "testcases": [
+        {
+          "Input": "design/KG/SystemArchitecture.json（ir-001 派生关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=requirements node tests/stage1_domain_analysis.test.js",
+          "description": "给定 初始需求 IR-001 存在；当 追踪其派生到的场景；则 IR-001 --(派生)--> 至少一个场景（新增或编辑/完成或激活）。",
+          "name": "IR-001 派生至少一个场景",
+          "type": "Acceptance Test"
+        }
       ]
     },
     {
@@ -286,6 +336,15 @@
           "name": "commit",
           "value": "836cae6",
           "description": "新增 IR-002 初始需求"
+        }
+      ],
+      "testcases": [
+        {
+          "Input": "design/KG/SystemArchitecture.json（ir-002 派生关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=requirements node tests/stage1_domain_analysis.test.js",
+          "description": "给定 初始需求 IR-002 存在；当 追踪其派生到的场景；则 IR-002 --(派生)--> 至少一个场景（浏览与筛选/查看进度统计）。",
+          "name": "IR-002 派生至少一个场景",
+          "type": "Acceptance Test"
         }
       ]
     },
@@ -636,46 +695,6 @@
       "type": "派生"
     },
     {
-      "id": "rb-scnlist-arch",
-      "name": "归属",
-      "source_id": "scn-list-filter",
-      "source_name": "场景：浏览与筛选待办列表",
-      "statement": "场景：浏览与筛选待办列表 --(归属)--> 待办任务管理领域架构",
-      "target_id": "dom-arch-todo",
-      "target_name": "待办任务管理领域架构",
-      "type": "归属"
-    },
-    {
-      "id": "rb-scnaddedit-arch",
-      "name": "归属",
-      "source_id": "scn-add-edit",
-      "source_name": "场景：新增或编辑待办任务",
-      "statement": "场景：新增或编辑待办任务 --(归属)--> 待办任务管理领域架构",
-      "target_id": "dom-arch-todo",
-      "target_name": "待办任务管理领域架构",
-      "type": "归属"
-    },
-    {
-      "id": "rb-scncomplete-arch",
-      "name": "归属",
-      "source_id": "scn-complete",
-      "source_name": "场景：完成或激活待办任务",
-      "statement": "场景：完成或激活待办任务 --(归属)--> 待办任务管理领域架构",
-      "target_id": "dom-arch-todo",
-      "target_name": "待办任务管理领域架构",
-      "type": "归属"
-    },
-    {
-      "id": "rb-scnstats-arch",
-      "name": "归属",
-      "source_id": "scn-stats",
-      "source_name": "场景：查看待办进度统计",
-      "statement": "场景：查看待办进度统计 --(归属)--> 待办任务管理领域架构",
-      "target_id": "dom-arch-todo",
-      "target_name": "待办任务管理领域架构",
-      "type": "归属"
-    },
-    {
       "id": "ras-srcapp-crud",
       "name": "关联",
       "source_id": "idpdv-src-app",
@@ -716,44 +735,94 @@
       "type": "Association"
     },
     {
-      "id": "rac-crud-arch",
-      "name": "访问",
+      "id": "rc-domarch-scnlist",
+      "name": "组成",
+      "source_id": "dom-arch-todo",
+      "source_name": "待办任务管理领域架构",
+      "statement": "待办任务管理领域架构 --(Composition)--> 场景：浏览与筛选待办列表",
+      "target_id": "scn-list-filter",
+      "target_name": "场景：浏览与筛选待办列表",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-domarch-scnaddedit",
+      "name": "组成",
+      "source_id": "dom-arch-todo",
+      "source_name": "待办任务管理领域架构",
+      "statement": "待办任务管理领域架构 --(Composition)--> 场景：新增或编辑待办任务",
+      "target_id": "scn-add-edit",
+      "target_name": "场景：新增或编辑待办任务",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-domarch-scncomplete",
+      "name": "组成",
+      "source_id": "dom-arch-todo",
+      "source_name": "待办任务管理领域架构",
+      "statement": "待办任务管理领域架构 --(Composition)--> 场景：完成或激活待办任务",
+      "target_id": "scn-complete",
+      "target_name": "场景：完成或激活待办任务",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-domarch-scnstats",
+      "name": "组成",
+      "source_id": "dom-arch-todo",
+      "source_name": "待办任务管理领域架构",
+      "statement": "待办任务管理领域架构 --(Composition)--> 场景：查看待办进度统计",
+      "target_id": "scn-stats",
+      "target_name": "场景：查看待办进度统计",
+      "type": "Composition"
+    },
+    {
+      "id": "raa-crud-arch",
+      "name": "关联",
       "source_id": "cap-task-crud",
       "source_name": "业务功能：待办任务增删改查",
-      "statement": "业务功能：待办任务增删改查 --(Access)--> 待办任务管理领域架构",
+      "statement": "业务功能：待办任务增删改查 --(Association)--> 待办任务管理领域架构",
       "target_id": "dom-arch-todo",
       "target_name": "待办任务管理领域架构",
-      "type": "Access"
+      "type": "Association"
     },
     {
-      "id": "rac-status-arch",
-      "name": "访问",
+      "id": "raa-status-arch",
+      "name": "关联",
       "source_id": "cap-task-status",
       "source_name": "业务功能：待办任务完成/激活状态切换",
-      "statement": "业务功能：待办任务完成/激活状态切换 --(Access)--> 待办任务管理领域架构",
+      "statement": "业务功能：待办任务完成/激活状态切换 --(Association)--> 待办任务管理领域架构",
       "target_id": "dom-arch-todo",
       "target_name": "待办任务管理领域架构",
-      "type": "Access"
+      "type": "Association"
     },
     {
-      "id": "rac-filterstats-arch",
-      "name": "访问",
+      "id": "raa-filterstats-arch",
+      "name": "关联",
       "source_id": "cap-filter-stats",
       "source_name": "业务功能：待办列表筛选与进度统计",
-      "statement": "业务功能：待办列表筛选与进度统计 --(Access)--> 待办任务管理领域架构",
+      "statement": "业务功能：待办列表筛选与进度统计 --(Association)--> 待办任务管理领域架构",
       "target_id": "dom-arch-todo",
       "target_name": "待办任务管理领域架构",
-      "type": "Access"
+      "type": "Association"
     },
     {
-      "id": "rac-persist-arch",
-      "name": "访问",
+      "id": "raa-persist-arch",
+      "name": "关联",
       "source_id": "cap-local-persist",
       "source_name": "业务功能：本地持久化与远端同步",
-      "statement": "业务功能：本地持久化与远端同步 --(Access)--> 待办任务管理领域架构",
+      "statement": "业务功能：本地持久化与远端同步 --(Association)--> 待办任务管理领域架构",
       "target_id": "dom-arch-todo",
       "target_name": "待办任务管理领域架构",
-      "type": "Access"
+      "type": "Association"
+    },
+    {
+      "id": "rrev-charter-arch",
+      "name": "评审",
+      "source_id": "rp-charter",
+      "source_name": "Charter 决策评审点",
+      "statement": "Charter 决策评审点 --(评审)--> 待办任务管理领域架构",
+      "target_id": "dom-arch-todo",
+      "target_name": "待办任务管理领域架构",
+      "type": "评审"
     }
   ],
   "views": [
@@ -833,7 +902,8 @@
         "rr-001",
         "ir-001",
         "ir-002",
-        "stage-s1"
+        "stage-s1",
+        "rp-charter"
       ],
       "included_relationships": [
         "rc-s1-stakeholder",
@@ -854,10 +924,11 @@
         "rd-ir001-scncomplete",
         "rd-ir002-scnlist",
         "rd-ir002-scnstats",
-        "rb-scnlist-arch",
-        "rb-scnaddedit-arch",
-        "rb-scncomplete-arch",
-        "rb-scnstats-arch"
+        "rc-domarch-scnlist",
+        "rc-domarch-scnaddedit",
+        "rc-domarch-scncomplete",
+        "rc-domarch-scnstats",
+        "rrev-charter-arch"
       ]
     },
     {
@@ -866,22 +937,22 @@
       "parent_element_id": "idpdv-src-app",
       "description": "源应用可移植能力基线视图：源 Android 应用（Todo）及其可移植的业务功能能力。",
       "included_elements": [
-        "dom-arch-todo",
         "cap-task-crud",
         "cap-task-status",
         "cap-filter-stats",
         "cap-local-persist",
-        "idpdv-src-app"
+        "idpdv-src-app",
+        "dom-arch-todo"
       ],
       "included_relationships": [
         "ras-srcapp-crud",
         "ras-srcapp-status",
         "ras-srcapp-filterstats",
         "ras-srcapp-persist",
-        "rac-crud-arch",
-        "rac-status-arch",
-        "rac-filterstats-arch",
-        "rac-persist-arch"
+        "raa-crud-arch",
+        "raa-status-arch",
+        "raa-filterstats-arch",
+        "raa-persist-arch"
       ]
     }
   ]
