@@ -117,7 +117,41 @@
       "id": "stage-s2",
       "name": "2 系统需求分析（1.9.3.2 / TR1）",
       "type": "IPD 阶段",
-      "description": "IPD 全量设计阶段二：系统需求分析，关口 TR1。"
+      "description": "IPD 全量设计阶段二：系统需求分析，关口 TR1。",
+      "subdiagram_views": [
+        {
+          "view_id": "view-stage-s2-system-req",
+          "view_name": "阶段二：系统需求分析（活动与系统需求）"
+        },
+        {
+          "view_id": "view-stage-s2-usecases",
+          "view_name": "阶段二：场景到系统用例"
+        },
+        {
+          "view_id": "view-stage-s2-features-sdr",
+          "view_name": "阶段二：特性与设计规格（SDR）"
+        },
+        {
+          "view_id": "view-stage-s2-testcases",
+          "view_name": "阶段二：测试策略与测试用例雏形"
+        }
+      ],
+      "testcases": [
+        {
+          "name": "阶段二分解为三个 IPD 活动",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（stage-s2 及其组成/产出关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=activities node tests/stage2_system_requirements.test.js",
+          "description": "给定 意图图中存在 IPD 阶段 stage-s2；当 检查其组成与产出关系；则 stage-s2 以 Composition 组合 系统需求分析、构建/刷新全量功能、测试策略分析 三个 IPD 活动。"
+        },
+        {
+          "name": "图谱不变量：单一根视图与完整视图归属",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（views 与成员完整性）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=invariants node tests/stage2_system_requirements.test.js",
+          "description": "给定 阶段二图谱；当 校验视图不变量；则 恰有一个顶层 SystemArchitecture 视图、每个元素与关系至少属于一个视图、每个视图元素数不超过 15，且四个子视图均挂载于 stage-s2。"
+        }
+      ]
     },
     {
       "id": "stage-s3",
@@ -148,7 +182,16 @@
       "id": "rp-tr1",
       "name": "TR1 技术评审点",
       "type": "技术评审点",
-      "description": "系统需求评审关口。"
+      "description": "系统需求评审关口。",
+      "testcases": [
+        {
+          "name": "TR1 技术评审点评审全部 SR",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（rp-tr1 评审关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=review node tests/stage2_system_requirements.test.js",
+          "description": "给定 技术评审点 TR1；当 检查评审关系；则 TR1 技术评审点 --(评审)--> 每个系统需求 SR。"
+        }
+      ]
     },
     {
       "id": "rp-tr2",
@@ -468,6 +511,177 @@
           "description": "阶段一关系语义修正（归属→Composition、Access→Association、Charter 评审）+ 验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
         }
       ]
+    },
+    {
+      "id": "act-system-req",
+      "type": "IPD 活动",
+      "name": "系统需求分析",
+      "description": "IPD 活动（1.9.3.2）：由初始需求 IR 派生系统需求 SR，并建立系统用例（场景到用例覆盖）。"
+    },
+    {
+      "id": "act-build-features",
+      "type": "IPD 活动",
+      "name": "构建/刷新全量功能",
+      "description": "IPD 活动（1.9.3.2）：由系统需求 SR 派生并刷新全量特性与系统设计规格（SDR）。"
+    },
+    {
+      "id": "act-test-strategy",
+      "type": "IPD 活动",
+      "name": "测试策略分析",
+      "description": "IPD 活动（1.9.3.2）：制定测试策略并为系统需求 SR 建立测试用例雏形。"
+    },
+    {
+      "id": "sr-001",
+      "type": "需求",
+      "name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "description": "系统需求（由 IR-001 派生）：系统应支持新建与编辑待办任务，标题与描述均须非空校验，保存后进入列表。",
+      "testcases": [
+        {
+          "name": "IR 派生系统需求 SR 并写清范围",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（ir-00x→sr-00x 派生关系与 SR 描述）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=requirements node tests/stage2_system_requirements.test.js",
+          "description": "给定 IR-001/IR-002 存在；当 追踪派生链；则 IR-001 --(派生)--> SR-001/SR-002、IR-002 --(派生)--> SR-003/SR-004，且每个 SR 描述写清范围。"
+        }
+      ]
+    },
+    {
+      "id": "sr-002",
+      "type": "需求",
+      "name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "description": "系统需求（由 IR-001 派生）：系统应支持将待办任务标记完成或重新激活，并支持删除任务。",
+      "testcases": [
+        {
+          "name": "活动产出遵循 IPD overrideMatrix",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（活动到 SR/特性/SDR/测试用例/用例的关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=outputs node tests/stage2_system_requirements.test.js",
+          "description": "给定 三个阶段二 IPD 活动；当 检查产出关系；则 系统需求分析 --(Realization)--> SR，构建/刷新全量功能 --(Access)--> 特性/SDR，测试策略分析 --(Access)--> 测试用例，系统需求分析 --(Access)--> 系统用例。"
+        }
+      ]
+    },
+    {
+      "id": "sr-003",
+      "type": "需求",
+      "name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "description": "系统需求（由 IR-002 派生）：系统应支持待办列表按 全部/未完成/已完成 三种视图筛选。"
+    },
+    {
+      "id": "sr-004",
+      "type": "需求",
+      "name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "description": "系统需求（由 IR-002 派生）：系统应展示活跃与已完成任务的进度统计。"
+    },
+    {
+      "id": "uc-create-edit",
+      "type": "用例",
+      "name": "系统用例：新增/编辑待办任务",
+      "description": "系统用例：用户新增或编辑待办任务，系统校验标题与描述非空后保存。",
+      "testcases": [
+        {
+          "name": "关键场景被系统用例覆盖",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（场景→用例 覆盖关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=usecases node tests/stage2_system_requirements.test.js",
+          "description": "给定 4 个关键场景；当 检查覆盖关系；则 每个场景 --(覆盖)--> 一个系统用例，且每个系统用例至少被一个场景覆盖。"
+        }
+      ]
+    },
+    {
+      "id": "uc-complete",
+      "type": "用例",
+      "name": "系统用例：完成/激活待办任务",
+      "description": "系统用例：用户将待办任务标记完成或重新激活，系统更新任务状态。"
+    },
+    {
+      "id": "uc-list-filter",
+      "type": "用例",
+      "name": "系统用例：浏览与筛选待办列表",
+      "description": "系统用例：用户浏览待办列表并按全部/未完成/已完成筛选。"
+    },
+    {
+      "id": "uc-stats",
+      "type": "用例",
+      "name": "系统用例：查看待办进度统计",
+      "description": "系统用例：用户查看活跃与已完成任务占比统计。"
+    },
+    {
+      "id": "feat-task-crud",
+      "type": "特性",
+      "name": "特性：待办任务增删改查",
+      "description": "特性（由 SR-001/SR-002 支撑）：待办任务的新建、查看、编辑与删除。",
+      "testcases": [
+        {
+          "name": "系统需求派生特性与设计规格",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（SR→特性/SDR 派生关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=features node tests/stage2_system_requirements.test.js",
+          "description": "给定 系统需求 SR；当 追踪派生；则 每个 SR --(派生)--> 至少一个特性与一个设计规格(SDR)，且每个特性/SDR 均由 SR 派生。"
+        }
+      ]
+    },
+    {
+      "id": "feat-task-status",
+      "type": "特性",
+      "name": "特性：待办任务完成态切换",
+      "description": "特性（由 SR-002 支撑）：待办任务完成/激活状态切换。"
+    },
+    {
+      "id": "feat-list-filter",
+      "type": "特性",
+      "name": "特性：待办列表视图筛选",
+      "description": "特性（由 SR-003 支撑）：待办列表按状态筛选。"
+    },
+    {
+      "id": "feat-stats",
+      "type": "特性",
+      "name": "特性：待办进度统计",
+      "description": "特性（由 SR-004 支撑）：活跃/已完成任务进度统计展示。"
+    },
+    {
+      "id": "sdr-001",
+      "type": "设计规格",
+      "name": "SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "description": "系统设计规格（由 SR-001/SR-002 派生）：待办任务（Task: id/title/description/completed）数据模型与标题/描述非空校验规则。"
+    },
+    {
+      "id": "sdr-002",
+      "type": "设计规格",
+      "name": "SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "description": "系统设计规格（由 SR-003/SR-004 派生）：待办列表视图状态（全部/未完成/已完成）与活跃/已完成统计计算规则。"
+    },
+    {
+      "id": "tc-001",
+      "type": "测试用例",
+      "name": "测试用例：新增待办任务（标题/描述非空校验）",
+      "description": "测试用例（验证 SR-001）：GIVEN 进入新增；WHEN 标题/描述非空并保存；THEN 任务进入列表。",
+      "testcases": [
+        {
+          "name": "系统需求被测试用例验证",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（测试用例→SR 验证关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=testcases node tests/stage2_system_requirements.test.js",
+          "description": "给定 为 SR 建立的测试用例雏形；当 检查验证关系；则 每个测试用例 --(验证)--> 一个 SR，且每个 SR 至少被一个测试用例验证。"
+        }
+      ]
+    },
+    {
+      "id": "tc-002",
+      "type": "测试用例",
+      "name": "测试用例：切换待办任务完成态",
+      "description": "测试用例（验证 SR-002）：GIVEN 存在未完成任务；WHEN 标记完成/重新激活；THEN 状态随之变更。"
+    },
+    {
+      "id": "tc-003",
+      "type": "测试用例",
+      "name": "测试用例：按状态筛选待办列表",
+      "description": "测试用例（验证 SR-003）：GIVEN 存在多状态任务；WHEN 切换全部/未完成/已完成；THEN 列表仅显示匹配项。"
+    },
+    {
+      "id": "tc-004",
+      "type": "测试用例",
+      "name": "测试用例：待办进度统计展示",
+      "description": "测试用例（验证 SR-004）：GIVEN 存在活跃与已完成任务；WHEN 查看统计；THEN 显示正确的活跃/已完成计数。"
     }
   ],
   "relationships": [
@@ -860,6 +1074,456 @@
       "target_id": "dom-arch-todo",
       "target_name": "待办任务管理领域架构",
       "type": "评审"
+    },
+    {
+      "id": "rc-s2-systemreq",
+      "name": "组成",
+      "source_id": "stage-s2",
+      "source_name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "statement": "2 系统需求分析（1.9.3.2 / TR1） --(Composition)--> 系统需求分析",
+      "target_id": "act-system-req",
+      "target_name": "系统需求分析",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-s2-buildfeat",
+      "name": "组成",
+      "source_id": "stage-s2",
+      "source_name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "statement": "2 系统需求分析（1.9.3.2 / TR1） --(Composition)--> 构建/刷新全量功能",
+      "target_id": "act-build-features",
+      "target_name": "构建/刷新全量功能",
+      "type": "Composition"
+    },
+    {
+      "id": "rc-s2-teststrat",
+      "name": "组成",
+      "source_id": "stage-s2",
+      "source_name": "2 系统需求分析（1.9.3.2 / TR1）",
+      "statement": "2 系统需求分析（1.9.3.2 / TR1） --(Composition)--> 测试策略分析",
+      "target_id": "act-test-strategy",
+      "target_name": "测试策略分析",
+      "type": "Composition"
+    },
+    {
+      "id": "rd-ir001-sr001",
+      "name": "派生",
+      "source_id": "ir-001",
+      "source_name": "IR-001 初始需求：待办任务全生命周期管理",
+      "statement": "IR-001 初始需求：待办任务全生命周期管理 --(派生)--> SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "target_id": "sr-001",
+      "target_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir001-sr002",
+      "name": "派生",
+      "source_id": "ir-001",
+      "source_name": "IR-001 初始需求：待办任务全生命周期管理",
+      "statement": "IR-001 初始需求：待办任务全生命周期管理 --(派生)--> SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "target_id": "sr-002",
+      "target_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir002-sr003",
+      "name": "派生",
+      "source_id": "ir-002",
+      "source_name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "statement": "IR-002 初始需求：待办任务的视图筛选与进度统计 --(派生)--> SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "target_id": "sr-003",
+      "target_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "type": "派生"
+    },
+    {
+      "id": "rd-ir002-sr004",
+      "name": "派生",
+      "source_id": "ir-002",
+      "source_name": "IR-002 初始需求：待办任务的视图筛选与进度统计",
+      "statement": "IR-002 初始需求：待办任务的视图筛选与进度统计 --(派生)--> SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "target_id": "sr-004",
+      "target_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "type": "派生"
+    },
+    {
+      "id": "ro-scn-addedit-uc",
+      "name": "覆盖",
+      "source_id": "scn-add-edit",
+      "source_name": "场景：新增或编辑待办任务",
+      "statement": "场景：新增或编辑待办任务 --(覆盖)--> 系统用例：新增/编辑待办任务",
+      "target_id": "uc-create-edit",
+      "target_name": "系统用例：新增/编辑待办任务",
+      "type": "覆盖"
+    },
+    {
+      "id": "ro-scn-complete-uc",
+      "name": "覆盖",
+      "source_id": "scn-complete",
+      "source_name": "场景：完成或激活待办任务",
+      "statement": "场景：完成或激活待办任务 --(覆盖)--> 系统用例：完成/激活待办任务",
+      "target_id": "uc-complete",
+      "target_name": "系统用例：完成/激活待办任务",
+      "type": "覆盖"
+    },
+    {
+      "id": "ro-scn-listfilter-uc",
+      "name": "覆盖",
+      "source_id": "scn-list-filter",
+      "source_name": "场景：浏览与筛选待办列表",
+      "statement": "场景：浏览与筛选待办列表 --(覆盖)--> 系统用例：浏览与筛选待办列表",
+      "target_id": "uc-list-filter",
+      "target_name": "系统用例：浏览与筛选待办列表",
+      "type": "覆盖"
+    },
+    {
+      "id": "ro-scn-stats-uc",
+      "name": "覆盖",
+      "source_id": "scn-stats",
+      "source_name": "场景：查看待办进度统计",
+      "statement": "场景：查看待办进度统计 --(覆盖)--> 系统用例：查看待办进度统计",
+      "target_id": "uc-stats",
+      "target_name": "系统用例：查看待办进度统计",
+      "type": "覆盖"
+    },
+    {
+      "id": "rd-sr001-feat-crud",
+      "name": "派生",
+      "source_id": "sr-001",
+      "source_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "statement": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验） --(派生)--> 特性：待办任务增删改查",
+      "target_id": "feat-task-crud",
+      "target_name": "特性：待办任务增删改查",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr002-feat-status",
+      "name": "派生",
+      "source_id": "sr-002",
+      "source_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "statement": "SR-002 系统需求：待办任务的完成/激活状态切换与删除 --(派生)--> 特性：待办任务完成态切换",
+      "target_id": "feat-task-status",
+      "target_name": "特性：待办任务完成态切换",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr003-feat-filter",
+      "name": "派生",
+      "source_id": "sr-003",
+      "source_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "statement": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成） --(派生)--> 特性：待办列表视图筛选",
+      "target_id": "feat-list-filter",
+      "target_name": "特性：待办列表视图筛选",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr004-feat-stats",
+      "name": "派生",
+      "source_id": "sr-004",
+      "source_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "statement": "SR-004 系统需求：待办进度统计展示（活跃/已完成） --(派生)--> 特性：待办进度统计",
+      "target_id": "feat-stats",
+      "target_name": "特性：待办进度统计",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr001-sdr001",
+      "name": "派生",
+      "source_id": "sr-001",
+      "source_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "statement": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验） --(派生)--> SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "target_id": "sdr-001",
+      "target_name": "SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr002-sdr001",
+      "name": "派生",
+      "source_id": "sr-002",
+      "source_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "statement": "SR-002 系统需求：待办任务的完成/激活状态切换与删除 --(派生)--> SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "target_id": "sdr-001",
+      "target_name": "SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr003-sdr002",
+      "name": "派生",
+      "source_id": "sr-003",
+      "source_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "statement": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成） --(派生)--> SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "target_id": "sdr-002",
+      "target_name": "SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "type": "派生"
+    },
+    {
+      "id": "rd-sr004-sdr002",
+      "name": "派生",
+      "source_id": "sr-004",
+      "source_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "statement": "SR-004 系统需求：待办进度统计展示（活跃/已完成） --(派生)--> SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "target_id": "sdr-002",
+      "target_name": "SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "type": "派生"
+    },
+    {
+      "id": "rv-tc001-sr001",
+      "name": "验证",
+      "source_id": "tc-001",
+      "source_name": "测试用例：新增待办任务（标题/描述非空校验）",
+      "statement": "测试用例：新增待办任务（标题/描述非空校验） --(验证)--> SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "target_id": "sr-001",
+      "target_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "type": "验证"
+    },
+    {
+      "id": "rv-tc002-sr002",
+      "name": "验证",
+      "source_id": "tc-002",
+      "source_name": "测试用例：切换待办任务完成态",
+      "statement": "测试用例：切换待办任务完成态 --(验证)--> SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "target_id": "sr-002",
+      "target_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "type": "验证"
+    },
+    {
+      "id": "rv-tc003-sr003",
+      "name": "验证",
+      "source_id": "tc-003",
+      "source_name": "测试用例：按状态筛选待办列表",
+      "statement": "测试用例：按状态筛选待办列表 --(验证)--> SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "target_id": "sr-003",
+      "target_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "type": "验证"
+    },
+    {
+      "id": "rv-tc004-sr004",
+      "name": "验证",
+      "source_id": "tc-004",
+      "source_name": "测试用例：待办进度统计展示",
+      "statement": "测试用例：待办进度统计展示 --(验证)--> SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "target_id": "sr-004",
+      "target_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "type": "验证"
+    },
+    {
+      "id": "rr-sysreq-sr001",
+      "name": "实现",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Realization)--> SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "target_id": "sr-001",
+      "target_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "type": "Realization"
+    },
+    {
+      "id": "rr-sysreq-sr002",
+      "name": "实现",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Realization)--> SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "target_id": "sr-002",
+      "target_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "type": "Realization"
+    },
+    {
+      "id": "rr-sysreq-sr003",
+      "name": "实现",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Realization)--> SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "target_id": "sr-003",
+      "target_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "type": "Realization"
+    },
+    {
+      "id": "rr-sysreq-sr004",
+      "name": "实现",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Realization)--> SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "target_id": "sr-004",
+      "target_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "type": "Realization"
+    },
+    {
+      "id": "ra-build-feat-crud",
+      "name": "访问",
+      "source_id": "act-build-features",
+      "source_name": "构建/刷新全量功能",
+      "statement": "构建/刷新全量功能 --(Access)--> 特性：待办任务增删改查",
+      "target_id": "feat-task-crud",
+      "target_name": "特性：待办任务增删改查",
+      "type": "Access"
+    },
+    {
+      "id": "ra-build-feat-status",
+      "name": "访问",
+      "source_id": "act-build-features",
+      "source_name": "构建/刷新全量功能",
+      "statement": "构建/刷新全量功能 --(Access)--> 特性：待办任务完成态切换",
+      "target_id": "feat-task-status",
+      "target_name": "特性：待办任务完成态切换",
+      "type": "Access"
+    },
+    {
+      "id": "ra-build-feat-filter",
+      "name": "访问",
+      "source_id": "act-build-features",
+      "source_name": "构建/刷新全量功能",
+      "statement": "构建/刷新全量功能 --(Access)--> 特性：待办列表视图筛选",
+      "target_id": "feat-list-filter",
+      "target_name": "特性：待办列表视图筛选",
+      "type": "Access"
+    },
+    {
+      "id": "ra-build-feat-stats",
+      "name": "访问",
+      "source_id": "act-build-features",
+      "source_name": "构建/刷新全量功能",
+      "statement": "构建/刷新全量功能 --(Access)--> 特性：待办进度统计",
+      "target_id": "feat-stats",
+      "target_name": "特性：待办进度统计",
+      "type": "Access"
+    },
+    {
+      "id": "ra-build-sdr001",
+      "name": "访问",
+      "source_id": "act-build-features",
+      "source_name": "构建/刷新全量功能",
+      "statement": "构建/刷新全量功能 --(Access)--> SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "target_id": "sdr-001",
+      "target_name": "SDR-001 系统设计规格：待办任务数据模型与校验规则",
+      "type": "Access"
+    },
+    {
+      "id": "ra-build-sdr002",
+      "name": "访问",
+      "source_id": "act-build-features",
+      "source_name": "构建/刷新全量功能",
+      "statement": "构建/刷新全量功能 --(Access)--> SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "target_id": "sdr-002",
+      "target_name": "SDR-002 系统设计规格：待办列表视图状态与统计计算",
+      "type": "Access"
+    },
+    {
+      "id": "ra-teststrat-tc001",
+      "name": "访问",
+      "source_id": "act-test-strategy",
+      "source_name": "测试策略分析",
+      "statement": "测试策略分析 --(Access)--> 测试用例：新增待办任务（标题/描述非空校验）",
+      "target_id": "tc-001",
+      "target_name": "测试用例：新增待办任务（标题/描述非空校验）",
+      "type": "Access"
+    },
+    {
+      "id": "ra-teststrat-tc002",
+      "name": "访问",
+      "source_id": "act-test-strategy",
+      "source_name": "测试策略分析",
+      "statement": "测试策略分析 --(Access)--> 测试用例：切换待办任务完成态",
+      "target_id": "tc-002",
+      "target_name": "测试用例：切换待办任务完成态",
+      "type": "Access"
+    },
+    {
+      "id": "ra-teststrat-tc003",
+      "name": "访问",
+      "source_id": "act-test-strategy",
+      "source_name": "测试策略分析",
+      "statement": "测试策略分析 --(Access)--> 测试用例：按状态筛选待办列表",
+      "target_id": "tc-003",
+      "target_name": "测试用例：按状态筛选待办列表",
+      "type": "Access"
+    },
+    {
+      "id": "ra-teststrat-tc004",
+      "name": "访问",
+      "source_id": "act-test-strategy",
+      "source_name": "测试策略分析",
+      "statement": "测试策略分析 --(Access)--> 测试用例：待办进度统计展示",
+      "target_id": "tc-004",
+      "target_name": "测试用例：待办进度统计展示",
+      "type": "Access"
+    },
+    {
+      "id": "ra-sysreq-uc-create-edit",
+      "name": "访问",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Access)--> 系统用例：新增/编辑待办任务",
+      "target_id": "uc-create-edit",
+      "target_name": "系统用例：新增/编辑待办任务",
+      "type": "Access"
+    },
+    {
+      "id": "ra-sysreq-uc-complete",
+      "name": "访问",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Access)--> 系统用例：完成/激活待办任务",
+      "target_id": "uc-complete",
+      "target_name": "系统用例：完成/激活待办任务",
+      "type": "Access"
+    },
+    {
+      "id": "ra-sysreq-uc-list-filter",
+      "name": "访问",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Access)--> 系统用例：浏览与筛选待办列表",
+      "target_id": "uc-list-filter",
+      "target_name": "系统用例：浏览与筛选待办列表",
+      "type": "Access"
+    },
+    {
+      "id": "ra-sysreq-uc-stats",
+      "name": "访问",
+      "source_id": "act-system-req",
+      "source_name": "系统需求分析",
+      "statement": "系统需求分析 --(Access)--> 系统用例：查看待办进度统计",
+      "target_id": "uc-stats",
+      "target_name": "系统用例：查看待办进度统计",
+      "type": "Access"
+    },
+    {
+      "id": "rrev-tr1-sr001",
+      "name": "评审",
+      "source_id": "rp-tr1",
+      "source_name": "TR1 技术评审点",
+      "statement": "TR1 技术评审点 --(评审)--> SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "target_id": "sr-001",
+      "target_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "type": "评审"
+    },
+    {
+      "id": "rrev-tr1-sr002",
+      "name": "评审",
+      "source_id": "rp-tr1",
+      "source_name": "TR1 技术评审点",
+      "statement": "TR1 技术评审点 --(评审)--> SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "target_id": "sr-002",
+      "target_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "type": "评审"
+    },
+    {
+      "id": "rrev-tr1-sr003",
+      "name": "评审",
+      "source_id": "rp-tr1",
+      "source_name": "TR1 技术评审点",
+      "statement": "TR1 技术评审点 --(评审)--> SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "target_id": "sr-003",
+      "target_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "type": "评审"
+    },
+    {
+      "id": "rrev-tr1-sr004",
+      "name": "评审",
+      "source_id": "rp-tr1",
+      "source_name": "TR1 技术评审点",
+      "statement": "TR1 技术评审点 --(评审)--> SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "target_id": "sr-004",
+      "target_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "type": "评审"
     }
   ],
   "views": [
@@ -990,6 +1654,131 @@
         "raa-status-arch",
         "raa-filterstats-arch",
         "raa-persist-arch"
+      ]
+    },
+    {
+      "view_id": "view-stage-s2-system-req",
+      "view_name": "阶段二：系统需求分析（活动与系统需求）",
+      "parent_element_id": "stage-s2",
+      "description": "阶段二（1.9.3.2 / TR1）系统需求分析核心视图：3 个 IPD 活动、由 IR 派生的系统需求 SR、TR1 评审。",
+      "included_elements": [
+        "stage-s2",
+        "ir-001",
+        "ir-002",
+        "rp-tr1",
+        "act-system-req",
+        "act-build-features",
+        "act-test-strategy",
+        "sr-001",
+        "sr-002",
+        "sr-003",
+        "sr-004"
+      ],
+      "included_relationships": [
+        "rc-s2-systemreq",
+        "rc-s2-buildfeat",
+        "rc-s2-teststrat",
+        "rd-ir001-sr001",
+        "rd-ir001-sr002",
+        "rd-ir002-sr003",
+        "rd-ir002-sr004",
+        "rr-sysreq-sr001",
+        "rr-sysreq-sr002",
+        "rr-sysreq-sr003",
+        "rr-sysreq-sr004",
+        "rrev-tr1-sr001",
+        "rrev-tr1-sr002",
+        "rrev-tr1-sr003",
+        "rrev-tr1-sr004"
+      ]
+    },
+    {
+      "view_id": "view-stage-s2-usecases",
+      "view_name": "阶段二：场景到系统用例",
+      "parent_element_id": "stage-s2",
+      "description": "阶段二场景到系统用例的覆盖视图：4 个关键场景各覆盖一个系统用例。",
+      "included_elements": [
+        "scn-add-edit",
+        "scn-complete",
+        "scn-list-filter",
+        "scn-stats",
+        "act-system-req",
+        "uc-create-edit",
+        "uc-complete",
+        "uc-list-filter",
+        "uc-stats"
+      ],
+      "included_relationships": [
+        "ro-scn-addedit-uc",
+        "ro-scn-complete-uc",
+        "ro-scn-listfilter-uc",
+        "ro-scn-stats-uc",
+        "ra-sysreq-uc-create-edit",
+        "ra-sysreq-uc-complete",
+        "ra-sysreq-uc-list-filter",
+        "ra-sysreq-uc-stats"
+      ]
+    },
+    {
+      "view_id": "view-stage-s2-features-sdr",
+      "view_name": "阶段二：特性与设计规格（SDR）",
+      "parent_element_id": "stage-s2",
+      "description": "阶段二由系统需求 SR 派生的特性与系统设计规格（SDR）视图。",
+      "included_elements": [
+        "act-build-features",
+        "sr-001",
+        "sr-002",
+        "sr-003",
+        "sr-004",
+        "feat-task-crud",
+        "feat-task-status",
+        "feat-list-filter",
+        "feat-stats",
+        "sdr-001",
+        "sdr-002"
+      ],
+      "included_relationships": [
+        "rd-sr001-feat-crud",
+        "rd-sr002-feat-status",
+        "rd-sr003-feat-filter",
+        "rd-sr004-feat-stats",
+        "rd-sr001-sdr001",
+        "rd-sr002-sdr001",
+        "rd-sr003-sdr002",
+        "rd-sr004-sdr002",
+        "ra-build-feat-crud",
+        "ra-build-feat-status",
+        "ra-build-feat-filter",
+        "ra-build-feat-stats",
+        "ra-build-sdr001",
+        "ra-build-sdr002"
+      ]
+    },
+    {
+      "view_id": "view-stage-s2-testcases",
+      "view_name": "阶段二：测试策略与测试用例雏形",
+      "parent_element_id": "stage-s2",
+      "description": "阶段二测试策略分析视图：为系统需求 SR 建立测试用例雏形并以 验证 关系追溯。",
+      "included_elements": [
+        "act-test-strategy",
+        "sr-001",
+        "sr-002",
+        "sr-003",
+        "sr-004",
+        "tc-001",
+        "tc-002",
+        "tc-003",
+        "tc-004"
+      ],
+      "included_relationships": [
+        "rv-tc001-sr001",
+        "rv-tc002-sr002",
+        "rv-tc003-sr003",
+        "rv-tc004-sr004",
+        "ra-teststrat-tc001",
+        "ra-teststrat-tc002",
+        "ra-teststrat-tc003",
+        "ra-teststrat-tc004"
       ]
     }
   ]
