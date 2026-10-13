@@ -26,7 +26,7 @@
       "id": "pm-wm-001",
       "name": "项目经理 T1 工作记忆（会话摘要）",
       "type": "Business Object",
-      "description": "【T1 会话摘要】2026-10-13 | 最近活动：完成 IPD 阶段一（1.9.3.1 / Charter）领域分析与方案设计，提交 836cae6（design/KG/SystemArchitecture.json + tests/stage1_domain_analysis.test.js + idpdv-demo.qea），commit 已登记回元素。工作区：IDPDV demo，将 android/architecture-samples（Todo）重写为鸿蒙应用（ArkTS/ArkUI），按 IPD 四阶段推进。新增：stage-s1 的 3 个 IPD 活动、领域架构、4 个场景、RR-001/IR-001/IR-002、4 项可移植能力基线；视图 view-stage-s1-domain / view-srcapp-capability-baseline。下一步：阶段二 1.9.3.2 / TR1 系统需求分析（IR→SR、场景→用例、特性/SDR）。详见 T2：pm-ltm-stage-s1。",
+      "description": "【T1 会话摘要】2026-10-13 | 本会话：对 IPD 阶段一产物做一次语义修正（只动图谱/验收/记忆；commit 2a3c60d，已登记回元素并推送 origin/main）。修正：4×场景--归属-->领域架构 改为 领域架构--Composition-->场景；4×业务功能--Access-->领域架构 改为 --Association-->；补 Charter 决策评审点--评审-->领域架构；阶段一 GIVEN-WHEN-THEN 验收回写为 testcases（stage-s1/rr-001/ir-001/ir-002/dom-arch-todo）。校验：validateSystemArchitecture 通过、node tests/*.test.js 全绿（commit 2a3c60d；已同步更新 tests/stage1_domain_analysis.test.js）。工作区：IDPDV demo，将 android/architecture-samples（Todo）重写为鸿蒙应用（ArkTS/ArkUI），按 IPD 四阶段推进（阶段一 1.9.3.1/Charter 前序 commit 836cae6）。下一步：阶段二 1.9.3.2 / TR1 系统需求分析（IR→SR、场景→用例、特性/SDR）。详见 T2：pm-ltm-stage-s1。",
       "attributes": [
         {
           "name": "memoryTier",
@@ -436,7 +436,7 @@
       "id": "pm-ltm-stage-s1",
       "type": "Business Object",
       "name": "T2 里程碑：IPD 阶段一 领域分析与方案设计（1.9.3.1 / Charter）",
-      "description": "【T2 里程碑 | 2026-10-13 | commit 836cae6】IPD 全量设计阶段一（1.9.3.1 / Charter）领域分析与方案设计完成。\n目标：把开源安卓 Todo 应用（android/architecture-samples）作为 Spec 源，按 IPD 四阶段移植为鸿蒙应用；本会话只做阶段一。\n进展：经 ARGO MCP 建模——stage-s1 以 Composition 组成 3 个 IPD 活动（利益相关者需求分析/领域分析/方案设计）；产出领域架构「待办任务管理领域架构」、4 个关键场景、RR-001 与 IR-001/IR-002 需求；关系链 RR-001→IR-001/IR-002→场景（派生），活动产出用 Access/Realization；源应用建立 4 项可移植能力基线（业务功能）。新增子视图 view-stage-s1-domain（12 元素）、view-srcapp-capability-baseline（6 元素）。\n决策：(1) 用两个挂载子视图而非根视图承载新资产，根视图保持 14 元素，满足视图 ≤1５；(2) 能力基线用「业务功能」类型；(3) 无需扩展 schema 本体（所用类型已存在）。\n关键坑：addView 与 addElement（复用其父元素）同批会产生依赖环——必须先把视图单独一批创建，再一批写元素与关系。\n验收：node tests/*.test.js 全绿（新增 tests/stage1_domain_analysis.test.js；锚点 activities/domain/requirements/capabilities/grammar/invariants）；validateSystemArchitecture 通过。\n遗留/下一步：阶段二系统需求分析（1.9.3.2 / TR1）——由 IR 派生 SR、IR→场景→用例、特性与 SDR。",
+      "description": "【T2 里程碑 | 2026-10-13 | commit 836cae6】IPD 全量设计阶段一（1.9.3.1 / Charter）领域分析与方案设计完成。\n目标：把开源安卓 Todo 应用（android/architecture-samples）作为 Spec 源，按 IPD 四阶段移植为鸿蒙应用；本会话只做阶段一。\n进展：经 ARGO MCP 建模——stage-s1 以 Composition 组成 3 个 IPD 活动（利益相关者需求分析/领域分析/方案设计）；产出领域架构「待办任务管理领域架构」、4 个关键场景、RR-001 与 IR-001/IR-002 需求；关系链 RR-001→IR-001/IR-002→场景（派生），活动产出用 Access/Realization；源应用建立 4 项可移植能力基线（业务功能）。新增子视图 view-stage-s1-domain（12 元素）、view-srcapp-capability-baseline（6 元素）。\n决策：(1) 用两个挂载子视图而非根视图承载新资产，根视图保持 14 元素，满足视图 ≤1５；(2) 能力基线用「业务功能」类型；(3) 无需扩展 schema 本体（所用类型已存在）。\n关键坑：addView 与 addElement（复用其父元素）同批会产生依赖环——必须先把视图单独一批创建，再一批写元素与关系。\n验收：node tests/*.test.js 全绿（新增 tests/stage1_domain_analysis.test.js；锚点 activities/domain/requirements/capabilities/grammar/invariants）；validateSystemArchitecture 通过。\n遗留/下一步：阶段二系统需求分析（1.9.3.2 / TR1）——由 IR 派生 SR、IR→场景→用例、特性与 SDR。\n\n【语义修正 | 2026-10-13 | commit 2a3c60d】只动图谱/验收/记忆、不新增阶段内容的阶段一语义修正。\n修正项：(1) 删 4 条 场景 --(归属)--> 待办任务管理领域架构（rb-scn*-arch），改为方向相反 待办任务管理领域架构 --(Composition)--> 场景（rc-domarch-scn*）——领域架构组成其场景；矩阵允许 BusinessObject→BusinessObject，无需退回 Aggregation/Association。(2) 4 条 业务功能 --(Access)--> 领域架构（rac-*-arch）改为 --(Association)-->（raa-*-arch）：能力与领域架构是关联而非“访问数据”。(3) 为 rp-charter 补 评审：Charter 决策评审点 --(评审)--> 待办任务管理领域架构（rrev-charter-arch）——决策评审点=BusinessEvent，overrideMatrix.评审 允许源 BusinessEvent。(4) 阶段一 GIVEN-WHEN-THEN 验收以 testcases 回写：stage-s1（activities/invariants 2 条）、rr-001/ir-001/ir-002（requirements）、dom-arch-todo（domain/grammar）。\n做法/坑：关系类型不可原地改，必须 remove+add；remove 需 acknowledgeLoss=true（进墓碑账本 design/KG/SystemArchitecture.tombstones.ndjson）；新关系必须带完整 statement/source_name/target_name（grammar 断言校验 `源 --(类型)--> 目标`）。评审关系两端须同址——把 rp-charter 加入 view-stage-s1-domain（元素 12→13，仍 ≤15）。\n决策：以 relationshipTargetMatrix 为准，Composition 直接可用。\n验收：validateSystemArchitecture 通过；node tests/*.test.js 全绿（同步更新 tests/stage1_domain_analysis.test.js：能力断言 Access→Association，并新增 Composition/评审 断言）。",
       "attributes": [
         {
           "name": "memoryTier",
@@ -461,6 +461,11 @@
         {
           "name": "gate",
           "value": "Charter"
+        },
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "阶段一关系语义修正（归属→Composition、Access→Association、Charter 评审）+ 验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
         }
       ]
     }
