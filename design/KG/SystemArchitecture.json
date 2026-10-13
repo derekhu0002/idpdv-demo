@@ -89,6 +89,11 @@
           "name": "commit",
           "value": "836cae6",
           "description": "阶段一(1.9.3.1/Charter)领域分析与方案设计建模；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
+        },
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "阶段一关系语义修正（归属→Composition、Access→Association、Charter 评审）+ 验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
         }
       ],
       "testcases": [
@@ -130,7 +135,14 @@
       "id": "rp-charter",
       "name": "Charter 决策评审点",
       "type": "决策评审点",
-      "description": "阶段一末的决策评审（Charter），放行进入系统需求分析。"
+      "description": "阶段一末的决策评审（Charter），放行进入系统需求分析。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "新增 Charter 决策评审点 --评审--> 待办任务管理领域架构；files: design/KG/SystemArchitecture.json"
+        }
+      ]
     },
     {
       "id": "rp-tr1",
@@ -211,6 +223,11 @@
           "name": "commit",
           "value": "836cae6",
           "description": "新增 领域架构 待办任务管理领域架构 (阶段一产出)"
+        },
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "领域架构关系语义修正（Composition 组成场景、能力 Association、Charter 评审）+ 验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js, idpdv-demo.qea"
         }
       ],
       "testcases": [
@@ -292,6 +309,11 @@
           "name": "commit",
           "value": "836cae6",
           "description": "新增 RR-001 原始需求"
+        },
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "阶段一验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js"
         }
       ],
       "testcases": [
@@ -314,6 +336,11 @@
           "name": "commit",
           "value": "836cae6",
           "description": "新增 IR-001 初始需求"
+        },
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "阶段一验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js"
         }
       ],
       "testcases": [
@@ -336,6 +363,11 @@
           "name": "commit",
           "value": "836cae6",
           "description": "新增 IR-002 初始需求"
+        },
+        {
+          "name": "commit",
+          "value": "2a3c60d",
+          "description": "阶段一验收 testcases 回写；files: design/KG/SystemArchitecture.json, tests/stage1_domain_analysis.test.js"
         }
       ],
       "testcases": [
