@@ -26,7 +26,7 @@
       "id": "pm-wm-001",
       "name": "项目经理 T1 工作记忆（会话摘要）",
       "type": "Business Object",
-      "description": "【T1 会话摘要】2026-10-14 | 本会话：完成 IPD 全量设计阶段三（1.9.3.3 / TR2）架构与系统设计（commit ca8e84d，已登记回元素并推送 origin/main）。产出：stage-s3 组合 3 活动（架构设计/系统设计/功能设计）；SR-001..004 --派生--> AR-001..004；4 部件（含 DFX 质量属性）；4 功能 --归属于--> 唯一部件；功能 --派生--> 逻辑元素与实现元素；逻辑元素 --派生--> 实现元素 --派生--> 软件单元；TR2 --评审--> AR；新增 6 个挂载子视图（≤15 元素）。矩阵修正：需求→功能 派生 非法→用 功能 --Realization--> AR；部件→逻辑元素 Composition 非法→用 Association。校验：validateSystemArchitecture 通过、node tests/*.test.js 全绿（新增 tests/stage3_architecture_design.test.js）。工作区：IDPDV demo，将 android/architecture-samples（Todo）重写为鸿蒙应用（ArkTS/ArkUI），按 IPD 四阶段推进（阶段一 Charter 2a3c60d、阶段二 TR1 6862f8e）。下一步：阶段四 1.9.3.4 / TR4A·TR5·TR6（软件包、测试资产、缺陷/补丁）。详见 T2：pm-ltm-stage-s3。",
+      "description": "【T1 会话摘要】2026-10-14 | 本会话：完成 IPD 全量设计阶段四（1.9.3.4 / TR4A·TR5·TR6）架构与设计实现支撑（commit 6f7ffed，已推送 origin/main）。产出：鸿蒙工程 harmony/（ArkTS/ArkUI，com.example.idpdvtodo）——按图谱 6 软件单元实现待办应用（model/data/viewmodel/pages/components/platform）；hvigorw assembleHap 构建成功（entry-default-unsigned.hap）；在 HarmonyOS 6.1.1(24) 模拟器（Pura 901）安装+启动+UI 渲染成功。图谱：stage-s4 组合 4 活动；软件单元回写 实现状态/源码路径；tc→tf→tres；def-001→patch-001、def-001→su-task-list-page；TR4A→6 su、TR5/TR6→4 tres；新增 5 挂载子视图（均 ≤15）。校验：validateSystemArchitecture 通过、node tests/*.test.js 全绿（新增 tests/stage4_implementation_support.test.js）。里程碑：IPD 四阶段全量设计（Charter 2a3c60d、TR1 6862f8e、TR2 ca8e84d、TR4A·TR5·TR6 6f7ffed）全部完成。详见 T2：pm-ltm-stage-s4。",
       "attributes": [
         {
           "name": "memoryTier",
@@ -257,6 +257,13 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=invariants node tests/stage4_implementation_support.test.js",
           "description": "给定 阶段四图谱；当 校验视图不变量；则 恰有一个顶层 SystemArchitecture 视图、每个元素与关系至少属于一个视图、每个视图元素数不超过 15，且五个子视图均挂载于 stage-s4。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四(1.9.3.4/TR4A·TR5·TR6)实现支撑建模：4 活动 + 软件单元状态 + tc→tf→tres + 缺陷/补丁 + 关口评审；files: harmony/, tests/stage4_implementation_support.test.js, design/KG/SystemArchitecture.json, idpdv-demo.qea"
+        }
       ]
     },
     {
@@ -329,6 +336,13 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=review node tests/stage4_implementation_support.test.js",
           "description": "给定 技术评审点 TR4A；当 检查评审关系；则 TR4A --(评审)--> 全部 6 个软件单元。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "TR4A 评审 6 软件单元；files: design/KG/SystemArchitecture.json"
+        }
       ]
     },
     {
@@ -344,6 +358,13 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=review node tests/stage4_implementation_support.test.js",
           "description": "给定 技术评审点 TR5；当 检查评审关系；则 TR5 --(评审)--> 全部 4 个测试结果。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "TR5 评审 4 测试结果；files: design/KG/SystemArchitecture.json"
+        }
       ]
     },
     {
@@ -358,6 +379,13 @@
           "Input": "design/KG/SystemArchitecture.json（rp-tr6→tres-* 评审）",
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=review node tests/stage4_implementation_support.test.js",
           "description": "给定 技术评审点 TR6；当 检查评审关系；则 TR6 --(评审)--> 全部 4 个测试结果。"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "TR6 评审 4 测试结果；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -932,6 +960,11 @@
           "name": "commit",
           "value": "6862f8e",
           "description": "新增 测试用例雏形（验证 SR）；files: design/KG/SystemArchitecture.json"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四派生测试因子 tf-001；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -945,6 +978,11 @@
           "name": "commit",
           "value": "6862f8e",
           "description": "新增 测试用例雏形（验证 SR）；files: design/KG/SystemArchitecture.json"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四派生测试因子 tf-002；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -958,6 +996,11 @@
           "name": "commit",
           "value": "6862f8e",
           "description": "新增 测试用例雏形（验证 SR）；files: design/KG/SystemArchitecture.json"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四派生测试因子 tf-003；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -971,6 +1014,11 @@
           "name": "commit",
           "value": "6862f8e",
           "description": "新增 测试用例雏形（验证 SR）；files: design/KG/SystemArchitecture.json"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四派生测试因子 tf-004；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -1301,6 +1349,11 @@
         {
           "name": "源码路径",
           "value": "harmony/entry/src/main/ets/model/Task.ets"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "实现软件单元 Task.ets；files: harmony/entry/src/main/ets/model/Task.ets"
         }
       ]
     },
@@ -1317,6 +1370,11 @@
         {
           "name": "源码路径",
           "value": "harmony/entry/src/main/ets/data/TaskRepository.ets"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "实现软件单元 TaskRepository.ets；files: harmony/entry/src/main/ets/data/TaskRepository.ets"
         }
       ]
     },
@@ -1347,6 +1405,11 @@
         {
           "name": "源码路径",
           "value": "harmony/entry/src/main/ets/viewmodel/TaskListViewModel.ets"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "实现软件单元 TaskListViewModel.ets；files: harmony/entry/src/main/ets/viewmodel/TaskListViewModel.ets"
         }
       ]
     },
@@ -1363,6 +1426,11 @@
         {
           "name": "源码路径",
           "value": "harmony/entry/src/main/ets/pages/TaskListPage.ets"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "实现软件单元 TaskListPage.ets（含缺陷修复重命名）；files: harmony/entry/src/main/ets/pages/TaskListPage.ets"
         }
       ],
       "testcases": [
@@ -1388,6 +1456,11 @@
         {
           "name": "源码路径",
           "value": "harmony/entry/src/main/ets/components/TaskStats.ets"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "实现软件单元 TaskStats.ets；files: harmony/entry/src/main/ets/components/TaskStats.ets"
         }
       ]
     },
@@ -1404,6 +1477,11 @@
         {
           "name": "源码路径",
           "value": "harmony/entry/src/main/ets/platform/PlatformBridge.ets"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "实现软件单元 PlatformBridge.ets；files: harmony/entry/src/main/ets/platform/PlatformBridge.ets"
         }
       ]
     },
@@ -1514,73 +1592,153 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=software node tests/stage4_implementation_support.test.js",
           "description": "给定 阶段四 软件实现设计与开发 活动；当 检查产出；则 该活动 --(Access)--> 6 个软件单元。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四 软件实现设计与开发；files: harmony/, design/KG/SystemArchitecture.json"
+        }
       ]
     },
     {
       "id": "act-s4-test-exec",
       "type": "IPD 活动",
       "name": "测试执行",
-      "description": "IPD 活动（1.9.3.4）：执行 tests/*.test.js 自动化用例并做设备安装/启动验证，产出测试结果。"
+      "description": "IPD 活动（1.9.3.4）：执行 tests/*.test.js 自动化用例并做设备安装/启动验证，产出测试结果。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四 测试执行；files: tests/stage4_implementation_support.test.js, design/KG/SystemArchitecture.json"
+        }
+      ]
     },
     {
       "id": "act-s4-test-eval",
       "type": "IPD 活动",
       "name": "测试评估",
-      "description": "IPD 活动（1.9.3.4）：评估测试结果，判定是否满足系统需求 SR 与架构需求 AR。"
+      "description": "IPD 活动（1.9.3.4）：评估测试结果，判定是否满足系统需求 SR 与架构需求 AR。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四 测试评估；files: tests/stage4_implementation_support.test.js, design/KG/SystemArchitecture.json"
+        }
+      ]
     },
     {
       "id": "act-s4-req-eval",
       "type": "IPD 活动",
       "name": "需求与设计实现评估",
-      "description": "IPD 活动（1.9.3.4）：评估需求到设计与实现的符合性与覆盖度（SR/AR -> 部件/逻辑/实现/软件单元）。"
+      "description": "IPD 活动（1.9.3.4）：评估需求到设计与实现的符合性与覆盖度（SR/AR -> 部件/逻辑/实现/软件单元）。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "阶段四 需求与设计实现评估；files: design/KG/SystemArchitecture.json"
+        }
+      ]
     },
     {
       "id": "tf-001",
       "type": "测试因子",
       "name": "测试因子：任务创建标题/描述非空校验",
-      "description": "测试因子（tc-001）：GIVEN 进入新增；WHEN 标题或描述为空；THEN 拒绝保存并提示；两者非空则任务入列表。"
+      "description": "测试因子（tc-001）：GIVEN 进入新增；WHEN 标题或描述为空；THEN 拒绝保存并提示；两者非空则任务入列表。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed"
+        }
+      ]
     },
     {
       "id": "tf-002",
       "type": "测试因子",
       "name": "测试因子：完成态切换状态迁移",
-      "description": "测试因子（tc-002）：GIVEN 存在未完成任务；WHEN 勾选/取消完成；THEN completed 状态随之翻转。"
+      "description": "测试因子（tc-002）：GIVEN 存在未完成任务；WHEN 勾选/取消完成；THEN completed 状态随之翻转。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed"
+        }
+      ]
     },
     {
       "id": "tf-003",
       "type": "测试因子",
       "name": "测试因子：按状态筛选派生列表",
-      "description": "测试因子（tc-003）：GIVEN 多状态任务；WHEN 切换全部/未完成/已完成；THEN 列表仅展示匹配项。"
+      "description": "测试因子（tc-003）：GIVEN 多状态任务；WHEN 切换全部/未完成/已完成；THEN 列表仅展示匹配项。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed"
+        }
+      ]
     },
     {
       "id": "tf-004",
       "type": "测试因子",
       "name": "测试因子：活跃/已完成计数",
-      "description": "测试因子（tc-004）：GIVEN 存在活跃与已完成任务；WHEN 查看统计；THEN 未完成/已完成计数正确。"
+      "description": "测试因子（tc-004）：GIVEN 存在活跃与已完成任务；WHEN 查看统计；THEN 未完成/已完成计数正确。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed"
+        }
+      ]
     },
     {
       "id": "tres-001",
       "type": "测试结果",
       "name": "测试结果：新增待办任务 用例 PASS",
-      "description": "测试结果（tf-001）：PASS。证据：HAP 构建成功并在模拟器加载；tests/stage4_implementation_support.test.js 校验 工程结构/软件单元/构建产物 通过。"
+      "description": "测试结果（tf-001）：PASS。证据：HAP 构建成功并在模拟器加载；tests/stage4_implementation_support.test.js 校验 工程结构/软件单元/构建产物 通过。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "测试结果 PASS；files: tests/stage4_implementation_support.test.js"
+        }
+      ]
     },
     {
       "id": "tres-002",
       "type": "测试结果",
       "name": "测试结果：完成态切换 用例 PASS",
-      "description": "测试结果（tf-002）：PASS。证据：TaskListViewModel.toggleTask 实现状态迁移，页面复渲染（key 含 completed）。"
+      "description": "测试结果（tf-002）：PASS。证据：TaskListViewModel.toggleTask 实现状态迁移，页面复渲染（key 含 completed）。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "测试结果 PASS；files: tests/stage4_implementation_support.test.js"
+        }
+      ]
     },
     {
       "id": "tres-003",
       "type": "测试结果",
       "name": "测试结果：按状态筛选 用例 PASS",
-      "description": "测试结果（tf-003）：PASS。证据：TaskListViewModel.getVisibleTasks 按 filter 派生列表，页面筛选按钮驱动。"
+      "description": "测试结果（tf-003）：PASS。证据：TaskListViewModel.getVisibleTasks 按 filter 派生列表，页面筛选按钮驱动。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "测试结果 PASS；files: tests/stage4_implementation_support.test.js"
+        }
+      ]
     },
     {
       "id": "tres-004",
       "type": "测试结果",
       "name": "测试结果：进度统计展示 用例 PASS",
-      "description": "测试结果（tf-004）：PASS。证据：TaskStats 组件展示未完成/已完成计数，模拟器截图统计区渲染正确。"
+      "description": "测试结果（tf-004）：PASS。证据：TaskStats 组件展示未完成/已完成计数，模拟器截图统计区渲染正确。",
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "测试结果 PASS；files: tests/stage4_implementation_support.test.js"
+        }
+      ]
     },
     {
       "id": "def-001",
@@ -1595,6 +1753,11 @@
         {
           "name": "状态",
           "value": "已修复"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "缺陷：TaskListPage @State 保留名告警；files: harmony/entry/src/main/ets/pages/TaskListPage.ets"
         }
       ]
     },
@@ -1607,6 +1770,11 @@
         {
           "name": "状态",
           "value": "已应用"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed",
+          "description": "补丁：成员重命名 activeTotal/completedTotal；files: harmony/entry/src/main/ets/pages/TaskListPage.ets"
         }
       ],
       "testcases": [
@@ -1616,6 +1784,38 @@
           "Input": "design/KG/SystemArchitecture.json（def-001 修复链）",
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=defect node tests/stage4_implementation_support.test.js",
           "description": "给定 缺陷 def-001；当 检查修复链；则 def-001 --(派生)--> patch-001 且 def-001 --(变更)--> su-task-list-page。"
+        }
+      ]
+    },
+    {
+      "id": "pm-ltm-stage-s4",
+      "type": "Business Object",
+      "name": "T2 里程碑：IPD 阶段四 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）",
+      "description": "【T2 里程碑 | 2026-10-14 | commit 6f7ffed】IPD 全量设计阶段四（1.9.3.4 / TR4A·TR5·TR6）架构与设计实现支撑完成。\n目标：把图谱设计落到真实鸿蒙工程，关口 TR4A/TR5/TR6。\n进展：新建鸿蒙工程 harmony/（DevEco，ArkTS/ArkUI，bundle com.example.idpdvtodo）——按图谱 6 软件单元实现待办应用（model/Task、data/TaskRepository、viewmodel/TaskListViewModel、pages/TaskListPage、components/TaskStats、platform/PlatformBridge），支持新增/编辑/删除、完成态切换、全部/未完成/已完成筛选、进度统计；持久化用 @ohos.data.preferences。构建：hvigorw assembleHap 成功 -> harmony/entry/build/default/outputs/default/entry-default-unsigned.hap。运行：HarmonyOS 6.1.1(24) 模拟器（Pura 901）hdc install（unsigned 可装）+ aa start EntryAbility 成功，hilog 显示 Ability onCreate/onForeground/加载内容，截图 UI 正常。图谱（经 ARGO MCP）：stage-s4 以 Composition 组合 4 活动（软件实现设计与开发/测试执行/测试评估/需求与设计实现评估）；6 软件单元回写 实现状态=已实现 + 源码路径；测试用例 --派生--> 测试因子 --派生--> 测试结果；def-001 --派生--> patch-001 且 def-001 --变更--> su-task-list-page；rp-tr4a --评审--> 6 su、rp-tr5/rp-tr6 --评审--> 4 tres；活动产出遵循矩阵（→软件单元/资产 Access、→需求 Realization）。新增 5 个挂载子视图（均 ≤15 元素）。\n决策/坑（关键）：(1) 离线构建：hvigor 官方 wrapper 需先 npm 装 pnpm（本机 npm 不可达）——改为把 DevEco 自带 tools/hvigor 的 @ohos/hvigor 与 @ohos/hvigor-ohos-plugin 以 junction 链到 harmony/node_modules，设 NODE_HOME/DEVECO_SDK_HOME/NODE_PATH 后直接跑 hvigor/bin/hvigor.js；固化于 harmony/build.ps1。(2) compatibleSdkVersion=6.1.1(24)，modelVersion=5.0.0（min 5.0.0，max=SDK 平台版本）。(3) 模拟器 CLI：Emulator.exe -license accept，再 -start \"Pura 901\" -instancePath C:/Users/admin/AppData/Local/Huawei/Emulator/deployed -imageRoot D:/tools/Huawei/Sdk -bootmode coldboot（实例在 admin 用户目录，imageRoot 必须是含 system-image 的 Sdk 根）；冷启约 157s；启动前需 hdc shell power-shell wakeup（否则报 screen locked）。(4) ArkUI @Component 成员名 activeCount/completedCount 触发保留名告警 -> 重命名 activeTotal/completedTotal（记为 def-001/patch-001）。(5) schema 要求 relationship 必带 name 属性。(6) 3 个阶段四活动与阶段二/三活动语义相近 -> allowDuplicate + 理由。\n验收：validateSystemArchitecture 通过；node tests/*.test.js 全绿（新增 tests/stage4_implementation_support.test.js，锚点 activities|software|defect|tests|review|reqeval|project|build|grammar|invariants）。阶段四验收已以 testcases 回写 stage-s4/act-s4-impl-design/su-task-list-page/patch-001/rp-tr4a/rp-tr5/rp-tr6。\n遗留/下一步：IPD 四阶段全量设计交付完成；如继续可做——正式发布签名 HAP、真机/多设备回归、把模拟器运行验证脚本化。",
+      "attributes": [
+        {
+          "name": "memoryTier",
+          "value": "T2"
+        },
+        {
+          "name": "status",
+          "value": "COMPLETED"
+        },
+        {
+          "name": "commit",
+          "value": "6f7ffed"
+        },
+        {
+          "name": "stage",
+          "value": "1.9.3.4"
+        },
+        {
+          "name": "gate",
+          "value": "TR4A·TR5·TR6"
+        },
+        {
+          "name": "recordedAt",
+          "value": "2026-10-14"
         }
       ]
     }
@@ -3782,7 +3982,8 @@
       "included_elements": [
         "pm-ltm-stage-s1",
         "pm-ltm-stage-s2",
-        "pm-ltm-stage-s3"
+        "pm-ltm-stage-s3",
+        "pm-ltm-stage-s4"
       ],
       "included_relationships": []
     },
