@@ -26,19 +26,22 @@
       "id": "pm-wm-001",
       "name": "项目经理 T1 工作记忆（会话摘要）",
       "type": "Business Object",
-      "description": "【T1 会话摘要】2026-10-14 | 本会话：完成 IPD 全量设计阶段四（1.9.3.4 / TR4A·TR5·TR6）架构与设计实现支撑（commit 6f7ffed，已推送 origin/main）。产出：鸿蒙工程 harmony/（ArkTS/ArkUI，com.example.idpdvtodo）——按图谱 6 软件单元实现待办应用（model/data/viewmodel/pages/components/platform）；hvigorw assembleHap 构建成功（entry-default-unsigned.hap）；在 HarmonyOS 6.1.1(24) 模拟器（Pura 901）安装+启动+UI 渲染成功。图谱：stage-s4 组合 4 活动；软件单元回写 实现状态/源码路径；tc→tf→tres；def-001→patch-001、def-001→su-task-list-page；TR4A→6 su、TR5/TR6→4 tres；新增 5 挂载子视图（均 ≤15）。校验：validateSystemArchitecture 通过、node tests/*.test.js 全绿（新增 tests/stage4_implementation_support.test.js）。里程碑：IPD 四阶段全量设计（Charter 2a3c60d、TR1 6862f8e、TR2 ca8e84d、TR4A·TR5·TR6 6f7ffed）全部完成。详见 T2：pm-ltm-stage-s4。",
+      "description": "【T1 会话摘要】2026-10-14 | 本会话：将 idpdv-demo 注册到 Graph Store 联邦中心（graph-wiki）——member id=idpdv-demo、name=IDPDV demo 安卓应用鸿蒙化、ontology=ipd-dev（中心占位，实为工作区 bundle『ArchiMate 3.2 + IPD 研发领域扩展』）、openContent=graph://idpdv-demo/design/KG/SystemArchitecture.json；本地持久化 .argo/federation.json（commit e678c87，已推送 origin/main）；idpdv-project 登记 federationProjectId/Center/SourceRepo/Branch/Ontology + commit e678c87；validateSystemArchitecture 通过。遗留：成员副本未同步（mirror_list 中 idpdv-demo synced=false/commit=null；graph_read_external=denied:mirror_not_synced），而同批其余成员被中心周期性 re-sync 正常，疑镜像宿主对新建副本构建失败——待重试 mirror_sync 或中心排查。上会话：IPD 四阶段全量设计完成（Charter 2a3c60d / TR1 6862f8e / TR2 ca8e84d / TR4A·TR5·TR6 6f7ffed），harmony/ 鸿蒙工程构建成功并在模拟器运行。详见 T2：pm-ltm-federation-registration、pm-ltm-stage-s4。",
       "attributes": [
         {
           "name": "memoryTier",
-          "value": "T1"
+          "value": "T1",
+          "description": "工作记忆"
         },
         {
           "name": "status",
-          "value": "ACTIVE"
+          "value": "ACTIVE",
+          "description": "活跃"
         },
         {
           "name": "lastSummaryAt",
-          "value": "2026-10-14"
+          "value": "2026-10-14",
+          "description": "最近摘要时间"
         }
       ]
     },
@@ -46,7 +49,39 @@
       "id": "idpdv-project",
       "name": "IDPDV demo 项目（开源安卓应用移植为鸿蒙应用）",
       "type": "Grouping",
-      "description": "目标：将 GitHub 开源安卓应用 android/architecture-samples（Todo，Apache-2.0）移植（重写）为鸿蒙应用（ArkTS/ArkUI），按 IPD 全量设计四阶段作业，最终在本机鸿蒙模拟器运行并交付 HAP。"
+      "description": "目标：将 GitHub 开源安卓应用 android/architecture-samples（Todo，Apache-2.0）移植（重写）为鸿蒙应用（ArkTS/ArkUI），按 IPD 全量设计四阶段作业，最终在本机鸿蒙模拟器运行并交付 HAP。",
+      "attributes": [
+        {
+          "name": "federationProjectId",
+          "value": "idpdv-demo",
+          "description": "Graph Store 联邦中心全局唯一 projectId"
+        },
+        {
+          "name": "federationCenter",
+          "value": "https://argo.derekworkspacev5.com",
+          "description": "Graph Store（graph-wiki）联邦中心 URL"
+        },
+        {
+          "name": "federationSourceRepo",
+          "value": "https://github.com/derekhu0002/idpdv-demo.git",
+          "description": "联邦镜像源仓"
+        },
+        {
+          "name": "federationBranch",
+          "value": "main",
+          "description": "联邦镜像同步分支"
+        },
+        {
+          "name": "federationOntology",
+          "value": "ipd-dev",
+          "description": "注册所基于的本体 id（工作区 schema bundle：ArchiMate 3.2 + IPD 研发领域扩展）"
+        },
+        {
+          "name": "commit",
+          "value": "e678c87",
+          "description": "注册 Graph Store 联邦成员：新增 .argo/federation.json（projectId=idpdv-demo）"
+        }
+      ]
     },
     {
       "id": "idpdv-src-app",
@@ -1816,6 +1851,34 @@
         {
           "name": "recordedAt",
           "value": "2026-10-14"
+        }
+      ]
+    },
+    {
+      "id": "pm-ltm-federation-registration",
+      "type": "Business Object",
+      "name": "T2 里程碑：注册到 Graph Store 联邦中心（idpdv-demo）",
+      "description": "【T2】2026-10-14 将 idpdv-demo 注册到 Graph Store 联邦中心（graph-wiki）。中心注册 commit 3d64d01；member id=idpdv-demo，name=IDPDV demo 安卓应用鸿蒙化；ontology=ipd-dev（中心自动建占位本体，内容为本工作区 bundle『ArchiMate 3.2 + IPD 研发领域扩展』）；openContent=graph://idpdv-demo/design/KG/SystemArchitecture.json；sourceRepo=https://github.com/derekhu0002/idpdv-demo.git；branch=main。本地持久化 .argo/federation.json（commit e678c87，已推送 origin/main）；图谱在 idpdv-project 上登记 federationProjectId/Center/SourceRepo/Branch/Ontology + commit e678c87；validateSystemArchitecture 通过。遗留问题：成员副本未同步——mirror_list 中 idpdv-demo synced=false/commit=null，graph_read_external 返回 denied/mirror_not_synced；同时中心引擎对其余成员（HarmonyOS-Dev-Standards/SOC-DEMO 等）周期性 re-sync 正常，故疑为镜像宿主对本新建副本构建失败。下一步：重试 mirror_sync 或请中心/镜像宿主侧排查（如 git 凭据/队列），就绪后轮询 mirror_list。",
+      "attributes": [
+        {
+          "name": "memoryTier",
+          "value": "T2",
+          "description": "长期记忆"
+        },
+        {
+          "name": "status",
+          "value": "ACTIVE",
+          "description": "进行中（副本待同步）"
+        },
+        {
+          "name": "commit",
+          "value": "e678c87",
+          "description": "本地联邦身份文件提交（.argo/federation.json）"
+        },
+        {
+          "name": "centerCommit",
+          "value": "3d64d01",
+          "description": "中心注册提交"
         }
       ]
     }
@@ -3983,7 +4046,8 @@
         "pm-ltm-stage-s1",
         "pm-ltm-stage-s2",
         "pm-ltm-stage-s3",
-        "pm-ltm-stage-s4"
+        "pm-ltm-stage-s4",
+        "pm-ltm-federation-registration"
       ],
       "included_relationships": []
     },
