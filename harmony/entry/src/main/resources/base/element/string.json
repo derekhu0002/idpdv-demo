@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "IDPDV Todo entry module"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "IDPDV Todo main ability"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "IDPDV Todo"
+    }
+  ]
+}
