@@ -42,6 +42,11 @@
           "name": "lastSummaryAt",
           "value": "2026-10-14",
           "description": "最近摘要时间"
+        },
+        {
+          "name": "commit",
+          "value": "ec567fa",
+          "description": "T1 会话摘要：Graph Store 联邦注册"
         }
       ]
     },
@@ -80,6 +85,11 @@
           "name": "commit",
           "value": "e678c87",
           "description": "注册 Graph Store 联邦成员：新增 .argo/federation.json（projectId=idpdv-demo）"
+        },
+        {
+          "name": "commit",
+          "value": "ec567fa",
+          "description": "记录联邦注册到图谱：idpdv-project federation* 属性 + T1/T2 记忆（design/KG/SystemArchitecture.json, idpdv-demo.qea）"
         }
       ]
     },
@@ -1879,6 +1889,11 @@
           "name": "centerCommit",
           "value": "3d64d01",
           "description": "中心注册提交"
+        },
+        {
+          "name": "commit",
+          "value": "ec567fa",
+          "description": "记录联邦注册到图谱"
         }
       ]
     }
