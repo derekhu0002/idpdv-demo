@@ -164,7 +164,49 @@
       "id": "stage-s3",
       "name": "3 架构与系统设计（1.9.3.3 / TR2）",
       "type": "IPD 阶段",
-      "description": "IPD 全量设计阶段三：架构与系统设计，关口 TR2。"
+      "description": "IPD 全量设计阶段三：架构与系统设计，关口 TR2。",
+      "subdiagram_views": [
+        {
+          "view_id": "view-stage-s3-plan",
+          "view_name": "阶段三：架构与系统设计（活动·需求与架构需求）"
+        },
+        {
+          "view_id": "view-stage-s3-parts-functions",
+          "view_name": "阶段三：部件与系统功能"
+        },
+        {
+          "view_id": "view-stage-s3-logical",
+          "view_name": "阶段三：逻辑元素与部件归属"
+        },
+        {
+          "view_id": "view-stage-s3-implementation",
+          "view_name": "阶段三：实现元素"
+        },
+        {
+          "view_id": "view-stage-s3-software-units",
+          "view_name": "阶段三：软件单元"
+        },
+        {
+          "view_id": "view-stage-s3-function-map",
+          "view_name": "阶段三：功能到实现元素映射"
+        }
+      ],
+      "testcases": [
+        {
+          "name": "阶段三分解为三个 IPD 活动",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（stage-s3 及其组成关系）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=activities node tests/stage3_architecture_design.test.js",
+          "description": "给定 意图图中存在 IPD 阶段 stage-s3；当 检查其组成；则 stage-s3 以 Composition 组合 架构设计、系统设计、功能设计 三个 IPD 活动。"
+        },
+        {
+          "name": "图谱不变量：单一根视图与完整视图归属",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（views 与成员完整性）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=invariants node tests/stage3_architecture_design.test.js",
+          "description": "给定 阶段三图谱；当 校验视图不变量；则 恰有一个顶层 SystemArchitecture 视图、每个元素与关系至少属于一个视图、每个视图元素数不超过 15，且六个子视图均挂载于 stage-s3。"
+        }
+      ]
     },
     {
       "id": "stage-s4",
@@ -211,7 +253,16 @@
       "id": "rp-tr2",
       "name": "TR2 技术评审点",
       "type": "技术评审点",
-      "description": "架构与系统设计评审关口。"
+      "description": "架构与系统设计评审关口。",
+      "testcases": [
+        {
+          "name": "TR2 技术评审点评审全部 AR",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（rp-tr2→ar-00x 评审）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=review node tests/stage3_architecture_design.test.js",
+          "description": "给定 技术评审点 TR2；当 检查评审关系；则 TR2 --(评审)--> 每个架构需求 AR-00x。"
+        }
+      ]
     },
     {
       "id": "rp-tr4a",
@@ -849,6 +900,387 @@
       "type": "Business Object",
       "name": "T2 里程碑：IPD 阶段二 系统需求分析（1.9.3.2 / TR1）",
       "description": "【T2 里程碑 | 2026-10-13 | commit 6862f8e】IPD 全量设计阶段二（1.9.3.2 / TR1）系统需求分析完成。\n目标：承接阶段一（Charter）产物，把 IR 细化为可实现的系统需求并建立用例/特性/设计规格/测试追溯；本会话只做阶段二。\n进展：经 ARGO MCP 建模——stage-s2 以 Composition 组合 3 个 IPD 活动（系统需求分析/构建·刷新全量功能/测试策略分析）；IR-001/IR-002 --派生--> SR-001..004；4 关键场景 --覆盖--> 4 系统用例；SR --派生--> 4 特性与 2 系统设计规格(SDR-001/002)；4 测试用例 --验证--> SR；活动产出遵循 overrideMatrix（活动→需求 Realization、活动→对象型资产 Access）；TR1 技术评审点 --评审--> 4 SR。新增 4 个挂载于 stage-s2 的子视图（system-req 11 / usecases 9 / features-sdr 11 / testcases 9 元素，均 ≤15），根视图保持 14 元素。\n决策：(1) 用 4 个挂载子视图而非根视图承载，满足视图 ≤15；(2) 系统需求分析活动与阶段一利益相关者需求分析语义相似(0.8527)，以 allowDuplicate + 理由保留（IPD 不同阶段不同活动）；(3) 无需扩展 schema（所用 需求/用例/特性/设计规格/测试用例 类型与 派生/覆盖/验证/评审 关系均已存在）。\n关键坑：addView 若在 included_elements 引用尚不存在的元素会被校验拒绝——必须先建空视图，再 addElement(view_ids) 挂载；关系两端须同址，故先把 stage-s2/ir-001/ir-002/rp-tr1/scn-* 用 updateView delta 加入对应子视图。\n验收：node tests/*.test.js 全绿（新增 tests/stage2_system_requirements.test.js；锚点 activities|requirements|usecases|features|testcases|review|outputs|grammar|invariants）；validateSystemArchitecture 通过。阶段二验收已以 testcases 回写 stage-s2/sr-001/sr-002/rp-tr1/uc-create-edit/feat-task-crud/tc-001。\n遗留/下一步：阶段三 架构与系统设计（1.9.3.3 / TR2）——由 SR 派生 AR、功能、逻辑/实现元素、部件；功能—派生—软件单元；场景/用例支撑设计。"
+    },
+    {
+      "id": "act-s3-arch-design",
+      "name": "架构设计",
+      "type": "IPD 活动",
+      "description": "IPD 活动（1.9.3.3）：架构设计——由架构需求 AR 定义目标鸿蒙应用的部件与逻辑架构元素（分层：数据持久层 / 领域与状态管理层 / ArkUI 展现层 / 平台适配层）。",
+      "testcases": [
+        {
+          "name": "活动产出遵循 IPD overrideMatrix",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（活动→AR Realization、活动→逻辑/实现元素 Access、活动→功能 派生）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=outputs node tests/stage3_architecture_design.test.js",
+          "description": "给定 阶段三 IPD 活动；当 检查产出关系；则 架构设计/系统设计 --(Realization)--> AR、架构设计 --(Access)--> 逻辑元素、系统设计 --(Access)--> 实现元素、功能设计 --(派生)--> 功能。"
+        }
+      ]
+    },
+    {
+      "id": "act-s3-sys-design",
+      "name": "系统设计",
+      "type": "IPD 活动",
+      "description": "IPD 活动（1.9.3.3）：系统设计——由逻辑元素派生实现元素，并落到可实现的系统设计。"
+    },
+    {
+      "id": "act-s3-func-design",
+      "name": "功能设计",
+      "type": "IPD 活动",
+      "description": "IPD 活动（1.9.3.3）：功能设计——由架构需求/系统需求定义并产出系统功能，功能归属到部件。"
+    },
+    {
+      "id": "ar-001",
+      "name": "AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "type": "需求",
+      "description": "架构需求（由 SR-001 派生）：待办任务创建与编辑分配到 ArkUI 展现层（表单与校验反馈）、领域与状态管理层（用例与状态）、数据持久层（Task 模型与持久化）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ],
+      "testcases": [
+        {
+          "name": "SR 派生架构需求 AR 并写清分配",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（sr-00x→ar-00x 派生关系与 AR 描述）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=requirements node tests/stage3_architecture_design.test.js",
+          "description": "给定 SR-001..004；当 追踪派生链；则 SR-00x --(派生)--> AR-00x，且每个 AR 描述写清分配到目标鸿蒙的哪一层/哪个部件。"
+        }
+      ]
+    },
+    {
+      "id": "ar-002",
+      "name": "AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "type": "需求",
+      "description": "架构需求（由 SR-002 派生）：完成/激活切换与删除分配到领域与状态管理层（状态迁移）、数据持久层（持久化更新/删除）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ]
+    },
+    {
+      "id": "ar-003",
+      "name": "AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "type": "需求",
+      "description": "架构需求（由 SR-003 派生）：全部/未完成/已完成筛选分配到 ArkUI 展现层（筛选控件与列表渲染）与领域与状态管理层（筛选状态与派生列表）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ]
+    },
+    {
+      "id": "ar-004",
+      "name": "AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "type": "需求",
+      "description": "架构需求（由 SR-004 派生）：活跃/已完成进度统计分配到 ArkUI 展现层（统计展示）与领域与状态管理层（统计计算）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ]
+    },
+    {
+      "id": "part-data-persist",
+      "name": "数据持久层",
+      "type": "部件",
+      "description": "可独立构建/部署的部件：任务数据模型与本地持久化（HarmonyOS 关系型数据库/首选项存储）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        },
+        {
+          "name": "质量属性",
+          "value": "可用性"
+        }
+      ]
+    },
+    {
+      "id": "part-domain-state",
+      "name": "领域与状态管理层",
+      "type": "部件",
+      "description": "可独立构建/部署的部件：领域模型、仓库契约与页面状态管理（ViewModel/UseCase）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        },
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ],
+      "testcases": [
+        {
+          "name": "部件携带质量属性并关联逻辑元素",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（部件→质量属性、部件→逻辑元素 Association）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=parts node tests/stage3_architecture_design.test.js",
+          "description": "给定 四个部件；当 检查 DFX 与成员；则 每个部件至少带一个受控词表质量属性，且 --(Association)--> 至少一个逻辑元素。"
+        }
+      ]
+    },
+    {
+      "id": "part-arkui-view",
+      "name": "ArkUI 展现层",
+      "type": "部件",
+      "description": "可独立构建/部署的部件：ArkUI 页面与组件（列表/编辑/统计），声明式 UI 与状态绑定。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        },
+        {
+          "name": "质量属性",
+          "value": "可用性"
+        }
+      ]
+    },
+    {
+      "id": "part-platform-adapt",
+      "name": "平台适配层",
+      "type": "部件",
+      "description": "可独立构建/部署的部件：鸿蒙平台能力适配（存储/日志/系统服务桥接）。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可服务性"
+        }
+      ]
+    },
+    {
+      "id": "le-task-model",
+      "name": "逻辑元素：TaskModel",
+      "type": "逻辑元素",
+      "description": "逻辑组件：Task 领域模型（id/标题/描述/完成态）与校验规则。"
+    },
+    {
+      "id": "le-task-repository",
+      "name": "逻辑元素：TaskRepository",
+      "type": "逻辑元素",
+      "description": "逻辑组件：任务仓库契约（增删改查/持久化抽象）。",
+      "testcases": [
+        {
+          "name": "功能派生逻辑元素且逻辑元素落到实现元素",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（功能→逻辑元素 派生、逻辑元素→实现元素 派生、部件→逻辑元素 Association）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=logical node tests/stage3_architecture_design.test.js",
+          "description": "给定 逻辑元素；当 检查来源与去向；则 每个逻辑元素由功能派生、关联到部件，并 --(派生)--> 至少一个实现元素。"
+        }
+      ]
+    },
+    {
+      "id": "le-task-list-viewmodel",
+      "name": "逻辑元素：TaskListViewModel",
+      "type": "逻辑元素",
+      "description": "逻辑组件：列表页状态管理（筛选状态、派生列表、进度统计）。"
+    },
+    {
+      "id": "le-task-list-page",
+      "name": "逻辑元素：TaskListPage",
+      "type": "逻辑元素",
+      "description": "逻辑组件：ArkUI 待办列表页面（筛选控件与列表渲染）。"
+    },
+    {
+      "id": "le-task-stats-panel",
+      "name": "逻辑元素：TaskStatsPanel",
+      "type": "逻辑元素",
+      "description": "逻辑组件：进度统计展示组件。"
+    },
+    {
+      "id": "le-platform-bridge",
+      "name": "逻辑元素：PlatformBridge",
+      "type": "逻辑元素",
+      "description": "逻辑组件：平台能力适配桥（存储/日志/系统服务）。"
+    },
+    {
+      "id": "imp-task-model",
+      "name": "实现元素：Task 数据模型与校验",
+      "type": "实现元素",
+      "description": "实现元素：Task 数据模型与标题/描述非空校验的 ArkTS 实现。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ]
+    },
+    {
+      "id": "imp-task-repository",
+      "name": "实现元素：TaskRepository 本地存储实现",
+      "type": "实现元素",
+      "description": "实现元素：基于鸿蒙本地存储的 TaskRepository 实现。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ]
+    },
+    {
+      "id": "imp-task-viewmodel",
+      "name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "type": "实现元素",
+      "description": "实现元素：列表页状态、筛选与统计计算的实现。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ],
+      "testcases": [
+        {
+          "name": "逻辑元素与功能派生实现元素",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（逻辑元素/功能→实现元素 派生、实现元素质量属性）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=implementation node tests/stage3_architecture_design.test.js",
+          "description": "给定 实现元素；当 检查来源与 DFX；则 每个实现元素由逻辑元素与功能派生，且至少带一个质量属性。"
+        }
+      ]
+    },
+    {
+      "id": "imp-task-list-page",
+      "name": "实现元素：待办列表页面实现",
+      "type": "实现元素",
+      "description": "实现元素：ArkUI 待办列表页面（筛选控件与列表）的实现。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ]
+    },
+    {
+      "id": "imp-task-stats",
+      "name": "实现元素：进度统计组件实现",
+      "type": "实现元素",
+      "description": "实现元素：活跃/已完成进度统计组件的实现。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ]
+    },
+    {
+      "id": "imp-platform-bridge",
+      "name": "实现元素：平台能力适配实现",
+      "type": "实现元素",
+      "description": "实现元素：鸿蒙平台能力适配（存储/日志/系统服务）的实现。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可服务性"
+        }
+      ]
+    },
+    {
+      "id": "su-task-model",
+      "name": "软件单元：entry/src/main/ets/model/Task.ets",
+      "type": "软件单元",
+      "description": "软件单元（ArkTS 源文件）：Task 数据模型。"
+    },
+    {
+      "id": "su-task-repository",
+      "name": "软件单元：entry/src/main/ets/data/TaskRepository.ets",
+      "type": "软件单元",
+      "description": "软件单元（ArkTS 源文件）：TaskRepository 本地存储实现。"
+    },
+    {
+      "id": "su-task-viewmodel",
+      "name": "软件单元：entry/src/main/ets/viewmodel/TaskListViewModel.ets",
+      "type": "软件单元",
+      "description": "软件单元（ArkTS 源文件）：TaskListViewModel 状态与筛选。",
+      "testcases": [
+        {
+          "name": "实现元素派生软件单元",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（实现元素→软件单元 派生）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=units node tests/stage3_architecture_design.test.js",
+          "description": "给定 软件单元；当 检查来源；则 每个软件单元由至少一个实现元素派生（ArkTS 源文件/模块粒度）。"
+        }
+      ]
+    },
+    {
+      "id": "su-task-list-page",
+      "name": "软件单元：entry/src/main/ets/pages/TaskListPage.ets",
+      "type": "软件单元",
+      "description": "软件单元（ArkTS 源文件）：待办列表页面。"
+    },
+    {
+      "id": "su-task-stats",
+      "name": "软件单元：entry/src/main/ets/components/TaskStats.ets",
+      "type": "软件单元",
+      "description": "软件单元（ArkTS 源文件）：进度统计组件。"
+    },
+    {
+      "id": "su-platform-bridge",
+      "name": "软件单元：entry/src/main/ets/platform/PlatformBridge.ets",
+      "type": "软件单元",
+      "description": "软件单元（ArkTS 源文件）：平台能力适配桥。"
+    },
+    {
+      "id": "func-task-crud",
+      "name": "功能：待办任务增删改查",
+      "type": "功能",
+      "description": "系统功能：新建/编辑/查看/删除待办任务。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ],
+      "testcases": [
+        {
+          "name": "系统功能归属唯一部件并实现架构需求",
+          "type": "Acceptance Test",
+          "Input": "design/KG/SystemArchitecture.json（功能→部件 归属于、功能→AR Realization）",
+          "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=functions node tests/stage3_architecture_design.test.js",
+          "description": "给定 系统功能；当 检查归属与追溯；则 每个功能 --(归属于)--> 恰好一个部件（功能公理），且 --(Realization)--> 对应 AR。"
+        }
+      ]
+    },
+    {
+      "id": "func-task-status",
+      "name": "功能：待办任务完成/激活状态切换",
+      "type": "功能",
+      "description": "系统功能：将待办任务标记完成或重新激活。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "可靠性"
+        }
+      ]
+    },
+    {
+      "id": "func-list-filter",
+      "name": "功能：待办列表视图筛选",
+      "type": "功能",
+      "description": "系统功能：按 全部/未完成/已完成 筛选待办列表。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ]
+    },
+    {
+      "id": "func-stats",
+      "name": "功能：待办进度统计",
+      "type": "功能",
+      "description": "系统功能：展示活跃与已完成任务的进度统计。",
+      "attributes": [
+        {
+          "name": "质量属性",
+          "value": "性能"
+        }
+      ]
     }
   ],
   "relationships": [
@@ -1691,6 +2123,816 @@
       "target_id": "sr-004",
       "target_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
       "type": "评审"
+    },
+    {
+      "id": "rc-s3-a1",
+      "name": "组成",
+      "type": "Composition",
+      "source_id": "stage-s3",
+      "source_name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "target_id": "act-s3-arch-design",
+      "target_name": "架构设计",
+      "statement": "3 架构与系统设计（1.9.3.3 / TR2） --(Composition)--> 架构设计"
+    },
+    {
+      "id": "rc-s3-a2",
+      "name": "组成",
+      "type": "Composition",
+      "source_id": "stage-s3",
+      "source_name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "target_id": "act-s3-sys-design",
+      "target_name": "系统设计",
+      "statement": "3 架构与系统设计（1.9.3.3 / TR2） --(Composition)--> 系统设计"
+    },
+    {
+      "id": "rc-s3-a3",
+      "name": "组成",
+      "type": "Composition",
+      "source_id": "stage-s3",
+      "source_name": "3 架构与系统设计（1.9.3.3 / TR2）",
+      "target_id": "act-s3-func-design",
+      "target_name": "功能设计",
+      "statement": "3 架构与系统设计（1.9.3.3 / TR2） --(Composition)--> 功能设计"
+    },
+    {
+      "id": "rd-sr001-ar001",
+      "name": "派生",
+      "type": "派生",
+      "source_id": "sr-001",
+      "source_name": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验）",
+      "target_id": "ar-001",
+      "target_name": "AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "statement": "SR-001 系统需求：待办任务的创建与编辑（标题/描述非空校验） --(派生)--> AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）"
+    },
+    {
+      "id": "rd-sr002-ar002",
+      "name": "派生",
+      "type": "派生",
+      "source_id": "sr-002",
+      "source_name": "SR-002 系统需求：待办任务的完成/激活状态切换与删除",
+      "target_id": "ar-002",
+      "target_name": "AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "statement": "SR-002 系统需求：待办任务的完成/激活状态切换与删除 --(派生)--> AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）"
+    },
+    {
+      "id": "rd-sr003-ar003",
+      "name": "派生",
+      "type": "派生",
+      "source_id": "sr-003",
+      "source_name": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成）",
+      "target_id": "ar-003",
+      "target_name": "AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "statement": "SR-003 系统需求：待办列表按状态筛选（全部/未完成/已完成） --(派生)--> AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）"
+    },
+    {
+      "id": "rd-sr004-ar004",
+      "name": "派生",
+      "type": "派生",
+      "source_id": "sr-004",
+      "source_name": "SR-004 系统需求：待办进度统计展示（活跃/已完成）",
+      "target_id": "ar-004",
+      "target_name": "AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "statement": "SR-004 系统需求：待办进度统计展示（活跃/已完成） --(派生)--> AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）"
+    },
+    {
+      "id": "rrev-tr2-ar001",
+      "name": "评审",
+      "type": "评审",
+      "source_id": "rp-tr2",
+      "source_name": "TR2 技术评审点",
+      "target_id": "ar-001",
+      "target_name": "AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "statement": "TR2 技术评审点 --(评审)--> AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）"
+    },
+    {
+      "id": "rrev-tr2-ar002",
+      "name": "评审",
+      "type": "评审",
+      "source_id": "rp-tr2",
+      "source_name": "TR2 技术评审点",
+      "target_id": "ar-002",
+      "target_name": "AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "statement": "TR2 技术评审点 --(评审)--> AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）"
+    },
+    {
+      "id": "rrev-tr2-ar003",
+      "name": "评审",
+      "type": "评审",
+      "source_id": "rp-tr2",
+      "source_name": "TR2 技术评审点",
+      "target_id": "ar-003",
+      "target_name": "AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "statement": "TR2 技术评审点 --(评审)--> AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）"
+    },
+    {
+      "id": "rrev-tr2-ar004",
+      "name": "评审",
+      "type": "评审",
+      "source_id": "rp-tr2",
+      "source_name": "TR2 技术评审点",
+      "target_id": "ar-004",
+      "target_name": "AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "statement": "TR2 技术评审点 --(评审)--> AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）"
+    },
+    {
+      "id": "rr-arch-ar001",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "target_id": "ar-001",
+      "target_name": "AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "statement": "架构设计 --(Realization)--> AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）"
+    },
+    {
+      "id": "rr-arch-ar002",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "target_id": "ar-002",
+      "target_name": "AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "statement": "架构设计 --(Realization)--> AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）"
+    },
+    {
+      "id": "rr-arch-ar003",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "target_id": "ar-003",
+      "target_name": "AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "statement": "架构设计 --(Realization)--> AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）"
+    },
+    {
+      "id": "rr-arch-ar004",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "target_id": "ar-004",
+      "target_name": "AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "statement": "架构设计 --(Realization)--> AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）"
+    },
+    {
+      "id": "rr-sys-ar001",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "target_id": "ar-001",
+      "target_name": "AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "statement": "系统设计 --(Realization)--> AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）"
+    },
+    {
+      "id": "rr-sys-ar002",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "target_id": "ar-002",
+      "target_name": "AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "statement": "系统设计 --(Realization)--> AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）"
+    },
+    {
+      "id": "rr-sys-ar003",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "target_id": "ar-003",
+      "target_name": "AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "statement": "系统设计 --(Realization)--> AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）"
+    },
+    {
+      "id": "rr-sys-ar004",
+      "name": "实现",
+      "type": "Realization",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "target_id": "ar-004",
+      "target_name": "AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "statement": "系统设计 --(Realization)--> AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）"
+    },
+    {
+      "id": "rbelong-crud-domain",
+      "name": "归属于",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(归属于)--> 领域与状态管理层",
+      "target_id": "part-domain-state",
+      "target_name": "领域与状态管理层",
+      "type": "归属于"
+    },
+    {
+      "id": "rbelong-status-domain",
+      "name": "归属于",
+      "source_id": "func-task-status",
+      "source_name": "功能：待办任务完成/激活状态切换",
+      "statement": "功能：待办任务完成/激活状态切换 --(归属于)--> 领域与状态管理层",
+      "target_id": "part-domain-state",
+      "target_name": "领域与状态管理层",
+      "type": "归属于"
+    },
+    {
+      "id": "rbelong-filter-view",
+      "name": "归属于",
+      "source_id": "func-list-filter",
+      "source_name": "功能：待办列表视图筛选",
+      "statement": "功能：待办列表视图筛选 --(归属于)--> ArkUI 展现层",
+      "target_id": "part-arkui-view",
+      "target_name": "ArkUI 展现层",
+      "type": "归属于"
+    },
+    {
+      "id": "rbelong-stats-view",
+      "name": "归属于",
+      "source_id": "func-stats",
+      "source_name": "功能：待办进度统计",
+      "statement": "功能：待办进度统计 --(归属于)--> ArkUI 展现层",
+      "target_id": "part-arkui-view",
+      "target_name": "ArkUI 展现层",
+      "type": "归属于"
+    },
+    {
+      "id": "ract-func-crud",
+      "name": "派生",
+      "source_id": "act-s3-func-design",
+      "source_name": "功能设计",
+      "statement": "功能设计 --(派生)--> 功能：待办任务增删改查",
+      "target_id": "func-task-crud",
+      "target_name": "功能：待办任务增删改查",
+      "type": "派生"
+    },
+    {
+      "id": "ract-func-status",
+      "name": "派生",
+      "source_id": "act-s3-func-design",
+      "source_name": "功能设计",
+      "statement": "功能设计 --(派生)--> 功能：待办任务完成/激活状态切换",
+      "target_id": "func-task-status",
+      "target_name": "功能：待办任务完成/激活状态切换",
+      "type": "派生"
+    },
+    {
+      "id": "ract-func-filter",
+      "name": "派生",
+      "source_id": "act-s3-func-design",
+      "source_name": "功能设计",
+      "statement": "功能设计 --(派生)--> 功能：待办列表视图筛选",
+      "target_id": "func-list-filter",
+      "target_name": "功能：待办列表视图筛选",
+      "type": "派生"
+    },
+    {
+      "id": "ract-func-stats",
+      "name": "派生",
+      "source_id": "act-s3-func-design",
+      "source_name": "功能设计",
+      "statement": "功能设计 --(派生)--> 功能：待办进度统计",
+      "target_id": "func-stats",
+      "target_name": "功能：待办进度统计",
+      "type": "派生"
+    },
+    {
+      "id": "racc-arch-part-dp",
+      "name": "关联",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Association)--> 数据持久层",
+      "target_id": "part-data-persist",
+      "target_name": "数据持久层",
+      "type": "Association"
+    },
+    {
+      "id": "racc-arch-part-ds",
+      "name": "关联",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Association)--> 领域与状态管理层",
+      "target_id": "part-domain-state",
+      "target_name": "领域与状态管理层",
+      "type": "Association"
+    },
+    {
+      "id": "racc-arch-part-v",
+      "name": "关联",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Association)--> ArkUI 展现层",
+      "target_id": "part-arkui-view",
+      "target_name": "ArkUI 展现层",
+      "type": "Association"
+    },
+    {
+      "id": "racc-arch-part-p",
+      "name": "关联",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Association)--> 平台适配层",
+      "target_id": "part-platform-adapt",
+      "target_name": "平台适配层",
+      "type": "Association"
+    },
+    {
+      "id": "rreal-func-crud-ar001",
+      "name": "实现",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(Realization)--> AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "target_id": "ar-001",
+      "target_name": "AR-001 架构需求：待办任务的创建与编辑（分配到展现层/领域层/持久层）",
+      "type": "Realization"
+    },
+    {
+      "id": "rreal-func-status-ar002",
+      "name": "实现",
+      "source_id": "func-task-status",
+      "source_name": "功能：待办任务完成/激活状态切换",
+      "statement": "功能：待办任务完成/激活状态切换 --(Realization)--> AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "target_id": "ar-002",
+      "target_name": "AR-002 架构需求：待办任务完成/激活切换与删除（分配到领域层/持久层）",
+      "type": "Realization"
+    },
+    {
+      "id": "rreal-func-filter-ar003",
+      "name": "实现",
+      "source_id": "func-list-filter",
+      "source_name": "功能：待办列表视图筛选",
+      "statement": "功能：待办列表视图筛选 --(Realization)--> AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "target_id": "ar-003",
+      "target_name": "AR-003 架构需求：待办列表状态筛选（分配到展现层/领域层）",
+      "type": "Realization"
+    },
+    {
+      "id": "rreal-func-stats-ar004",
+      "name": "实现",
+      "source_id": "func-stats",
+      "source_name": "功能：待办进度统计",
+      "statement": "功能：待办进度统计 --(Realization)--> AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "target_id": "ar-004",
+      "target_name": "AR-004 架构需求：待办进度统计展示（分配到展现层/领域层）",
+      "type": "Realization"
+    },
+    {
+      "id": "rder-crud-repo",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 逻辑元素：TaskRepository",
+      "target_id": "le-task-repository",
+      "target_name": "逻辑元素：TaskRepository",
+      "type": "派生"
+    },
+    {
+      "id": "rder-crud-vm",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 逻辑元素：TaskListViewModel",
+      "target_id": "le-task-list-viewmodel",
+      "target_name": "逻辑元素：TaskListViewModel",
+      "type": "派生"
+    },
+    {
+      "id": "rder-status-vm",
+      "name": "派生",
+      "source_id": "func-task-status",
+      "source_name": "功能：待办任务完成/激活状态切换",
+      "statement": "功能：待办任务完成/激活状态切换 --(派生)--> 逻辑元素：TaskListViewModel",
+      "target_id": "le-task-list-viewmodel",
+      "target_name": "逻辑元素：TaskListViewModel",
+      "type": "派生"
+    },
+    {
+      "id": "rder-filter-vm",
+      "name": "派生",
+      "source_id": "func-list-filter",
+      "source_name": "功能：待办列表视图筛选",
+      "statement": "功能：待办列表视图筛选 --(派生)--> 逻辑元素：TaskListViewModel",
+      "target_id": "le-task-list-viewmodel",
+      "target_name": "逻辑元素：TaskListViewModel",
+      "type": "派生"
+    },
+    {
+      "id": "rder-filter-page",
+      "name": "派生",
+      "source_id": "func-list-filter",
+      "source_name": "功能：待办列表视图筛选",
+      "statement": "功能：待办列表视图筛选 --(派生)--> 逻辑元素：TaskListPage",
+      "target_id": "le-task-list-page",
+      "target_name": "逻辑元素：TaskListPage",
+      "type": "派生"
+    },
+    {
+      "id": "rder-stats-panel",
+      "name": "派生",
+      "source_id": "func-stats",
+      "source_name": "功能：待办进度统计",
+      "statement": "功能：待办进度统计 --(派生)--> 逻辑元素：TaskStatsPanel",
+      "target_id": "le-task-stats-panel",
+      "target_name": "逻辑元素：TaskStatsPanel",
+      "type": "派生"
+    },
+    {
+      "id": "rassoc-dp-model",
+      "name": "关联",
+      "source_id": "part-data-persist",
+      "source_name": "数据持久层",
+      "statement": "数据持久层 --(Association)--> 逻辑元素：TaskModel",
+      "target_id": "le-task-model",
+      "target_name": "逻辑元素：TaskModel",
+      "type": "Association"
+    },
+    {
+      "id": "rassoc-dp-repo",
+      "name": "关联",
+      "source_id": "part-data-persist",
+      "source_name": "数据持久层",
+      "statement": "数据持久层 --(Association)--> 逻辑元素：TaskRepository",
+      "target_id": "le-task-repository",
+      "target_name": "逻辑元素：TaskRepository",
+      "type": "Association"
+    },
+    {
+      "id": "rassoc-ds-vm",
+      "name": "关联",
+      "source_id": "part-domain-state",
+      "source_name": "领域与状态管理层",
+      "statement": "领域与状态管理层 --(Association)--> 逻辑元素：TaskListViewModel",
+      "target_id": "le-task-list-viewmodel",
+      "target_name": "逻辑元素：TaskListViewModel",
+      "type": "Association"
+    },
+    {
+      "id": "rassoc-v-page",
+      "name": "关联",
+      "source_id": "part-arkui-view",
+      "source_name": "ArkUI 展现层",
+      "statement": "ArkUI 展现层 --(Association)--> 逻辑元素：TaskListPage",
+      "target_id": "le-task-list-page",
+      "target_name": "逻辑元素：TaskListPage",
+      "type": "Association"
+    },
+    {
+      "id": "rassoc-v-panel",
+      "name": "关联",
+      "source_id": "part-arkui-view",
+      "source_name": "ArkUI 展现层",
+      "statement": "ArkUI 展现层 --(Association)--> 逻辑元素：TaskStatsPanel",
+      "target_id": "le-task-stats-panel",
+      "target_name": "逻辑元素：TaskStatsPanel",
+      "type": "Association"
+    },
+    {
+      "id": "rassoc-p-bridge",
+      "name": "关联",
+      "source_id": "part-platform-adapt",
+      "source_name": "平台适配层",
+      "statement": "平台适配层 --(Association)--> 逻辑元素：PlatformBridge",
+      "target_id": "le-platform-bridge",
+      "target_name": "逻辑元素：PlatformBridge",
+      "type": "Association"
+    },
+    {
+      "id": "racc-arch-model",
+      "name": "访问",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Access)--> 逻辑元素：TaskModel",
+      "target_id": "le-task-model",
+      "target_name": "逻辑元素：TaskModel",
+      "type": "Access"
+    },
+    {
+      "id": "racc-arch-repo",
+      "name": "访问",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Access)--> 逻辑元素：TaskRepository",
+      "target_id": "le-task-repository",
+      "target_name": "逻辑元素：TaskRepository",
+      "type": "Access"
+    },
+    {
+      "id": "racc-arch-vm",
+      "name": "访问",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Access)--> 逻辑元素：TaskListViewModel",
+      "target_id": "le-task-list-viewmodel",
+      "target_name": "逻辑元素：TaskListViewModel",
+      "type": "Access"
+    },
+    {
+      "id": "racc-arch-page",
+      "name": "访问",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Access)--> 逻辑元素：TaskListPage",
+      "target_id": "le-task-list-page",
+      "target_name": "逻辑元素：TaskListPage",
+      "type": "Access"
+    },
+    {
+      "id": "racc-arch-panel",
+      "name": "访问",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Access)--> 逻辑元素：TaskStatsPanel",
+      "target_id": "le-task-stats-panel",
+      "target_name": "逻辑元素：TaskStatsPanel",
+      "type": "Access"
+    },
+    {
+      "id": "racc-arch-bridge",
+      "name": "访问",
+      "source_id": "act-s3-arch-design",
+      "source_name": "架构设计",
+      "statement": "架构设计 --(Access)--> 逻辑元素：PlatformBridge",
+      "target_id": "le-platform-bridge",
+      "target_name": "逻辑元素：PlatformBridge",
+      "type": "Access"
+    },
+    {
+      "id": "rder-model-imp",
+      "name": "派生",
+      "source_id": "le-task-model",
+      "source_name": "逻辑元素：TaskModel",
+      "statement": "逻辑元素：TaskModel --(派生)--> 实现元素：Task 数据模型与校验",
+      "target_id": "imp-task-model",
+      "target_name": "实现元素：Task 数据模型与校验",
+      "type": "派生"
+    },
+    {
+      "id": "rder-repo-imp",
+      "name": "派生",
+      "source_id": "le-task-repository",
+      "source_name": "逻辑元素：TaskRepository",
+      "statement": "逻辑元素：TaskRepository --(派生)--> 实现元素：TaskRepository 本地存储实现",
+      "target_id": "imp-task-repository",
+      "target_name": "实现元素：TaskRepository 本地存储实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-vm-imp",
+      "name": "派生",
+      "source_id": "le-task-list-viewmodel",
+      "source_name": "逻辑元素：TaskListViewModel",
+      "statement": "逻辑元素：TaskListViewModel --(派生)--> 实现元素：TaskListViewModel 状态/筛选实现",
+      "target_id": "imp-task-viewmodel",
+      "target_name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-page-imp",
+      "name": "派生",
+      "source_id": "le-task-list-page",
+      "source_name": "逻辑元素：TaskListPage",
+      "statement": "逻辑元素：TaskListPage --(派生)--> 实现元素：待办列表页面实现",
+      "target_id": "imp-task-list-page",
+      "target_name": "实现元素：待办列表页面实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-panel-imp",
+      "name": "派生",
+      "source_id": "le-task-stats-panel",
+      "source_name": "逻辑元素：TaskStatsPanel",
+      "statement": "逻辑元素：TaskStatsPanel --(派生)--> 实现元素：进度统计组件实现",
+      "target_id": "imp-task-stats",
+      "target_name": "实现元素：进度统计组件实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-bridge-imp",
+      "name": "派生",
+      "source_id": "le-platform-bridge",
+      "source_name": "逻辑元素：PlatformBridge",
+      "statement": "逻辑元素：PlatformBridge --(派生)--> 实现元素：平台能力适配实现",
+      "target_id": "imp-platform-bridge",
+      "target_name": "实现元素：平台能力适配实现",
+      "type": "派生"
+    },
+    {
+      "id": "racc-sys-model",
+      "name": "访问",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "statement": "系统设计 --(Access)--> 实现元素：Task 数据模型与校验",
+      "target_id": "imp-task-model",
+      "target_name": "实现元素：Task 数据模型与校验",
+      "type": "Access"
+    },
+    {
+      "id": "racc-sys-repo",
+      "name": "访问",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "statement": "系统设计 --(Access)--> 实现元素：TaskRepository 本地存储实现",
+      "target_id": "imp-task-repository",
+      "target_name": "实现元素：TaskRepository 本地存储实现",
+      "type": "Access"
+    },
+    {
+      "id": "racc-sys-vm",
+      "name": "访问",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "statement": "系统设计 --(Access)--> 实现元素：TaskListViewModel 状态/筛选实现",
+      "target_id": "imp-task-viewmodel",
+      "target_name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "type": "Access"
+    },
+    {
+      "id": "racc-sys-page",
+      "name": "访问",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "statement": "系统设计 --(Access)--> 实现元素：待办列表页面实现",
+      "target_id": "imp-task-list-page",
+      "target_name": "实现元素：待办列表页面实现",
+      "type": "Access"
+    },
+    {
+      "id": "racc-sys-stats",
+      "name": "访问",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "statement": "系统设计 --(Access)--> 实现元素：进度统计组件实现",
+      "target_id": "imp-task-stats",
+      "target_name": "实现元素：进度统计组件实现",
+      "type": "Access"
+    },
+    {
+      "id": "racc-sys-bridge",
+      "name": "访问",
+      "source_id": "act-s3-sys-design",
+      "source_name": "系统设计",
+      "statement": "系统设计 --(Access)--> 实现元素：平台能力适配实现",
+      "target_id": "imp-platform-bridge",
+      "target_name": "实现元素：平台能力适配实现",
+      "type": "Access"
+    },
+    {
+      "id": "rder-imp-model-su",
+      "name": "派生",
+      "source_id": "imp-task-model",
+      "source_name": "实现元素：Task 数据模型与校验",
+      "statement": "实现元素：Task 数据模型与校验 --(派生)--> 软件单元：entry/src/main/ets/model/Task.ets",
+      "target_id": "su-task-model",
+      "target_name": "软件单元：entry/src/main/ets/model/Task.ets",
+      "type": "派生"
+    },
+    {
+      "id": "rder-imp-repo-su",
+      "name": "派生",
+      "source_id": "imp-task-repository",
+      "source_name": "实现元素：TaskRepository 本地存储实现",
+      "statement": "实现元素：TaskRepository 本地存储实现 --(派生)--> 软件单元：entry/src/main/ets/data/TaskRepository.ets",
+      "target_id": "su-task-repository",
+      "target_name": "软件单元：entry/src/main/ets/data/TaskRepository.ets",
+      "type": "派生"
+    },
+    {
+      "id": "rder-imp-vm-su",
+      "name": "派生",
+      "source_id": "imp-task-viewmodel",
+      "source_name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "statement": "实现元素：TaskListViewModel 状态/筛选实现 --(派生)--> 软件单元：entry/src/main/ets/viewmodel/TaskListViewModel.ets",
+      "target_id": "su-task-viewmodel",
+      "target_name": "软件单元：entry/src/main/ets/viewmodel/TaskListViewModel.ets",
+      "type": "派生"
+    },
+    {
+      "id": "rder-imp-page-su",
+      "name": "派生",
+      "source_id": "imp-task-list-page",
+      "source_name": "实现元素：待办列表页面实现",
+      "statement": "实现元素：待办列表页面实现 --(派生)--> 软件单元：entry/src/main/ets/pages/TaskListPage.ets",
+      "target_id": "su-task-list-page",
+      "target_name": "软件单元：entry/src/main/ets/pages/TaskListPage.ets",
+      "type": "派生"
+    },
+    {
+      "id": "rder-imp-stats-su",
+      "name": "派生",
+      "source_id": "imp-task-stats",
+      "source_name": "实现元素：进度统计组件实现",
+      "statement": "实现元素：进度统计组件实现 --(派生)--> 软件单元：entry/src/main/ets/components/TaskStats.ets",
+      "target_id": "su-task-stats",
+      "target_name": "软件单元：entry/src/main/ets/components/TaskStats.ets",
+      "type": "派生"
+    },
+    {
+      "id": "rder-imp-bridge-su",
+      "name": "派生",
+      "source_id": "imp-platform-bridge",
+      "source_name": "实现元素：平台能力适配实现",
+      "statement": "实现元素：平台能力适配实现 --(派生)--> 软件单元：entry/src/main/ets/platform/PlatformBridge.ets",
+      "target_id": "su-platform-bridge",
+      "target_name": "软件单元：entry/src/main/ets/platform/PlatformBridge.ets",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-crud-model",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 实现元素：Task 数据模型与校验",
+      "target_id": "imp-task-model",
+      "target_name": "实现元素：Task 数据模型与校验",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-crud-repo",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 实现元素：TaskRepository 本地存储实现",
+      "target_id": "imp-task-repository",
+      "target_name": "实现元素：TaskRepository 本地存储实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-crud-vm",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 实现元素：TaskListViewModel 状态/筛选实现",
+      "target_id": "imp-task-viewmodel",
+      "target_name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-status-vm",
+      "name": "派生",
+      "source_id": "func-task-status",
+      "source_name": "功能：待办任务完成/激活状态切换",
+      "statement": "功能：待办任务完成/激活状态切换 --(派生)--> 实现元素：TaskListViewModel 状态/筛选实现",
+      "target_id": "imp-task-viewmodel",
+      "target_name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-filter-vm",
+      "name": "派生",
+      "source_id": "func-list-filter",
+      "source_name": "功能：待办列表视图筛选",
+      "statement": "功能：待办列表视图筛选 --(派生)--> 实现元素：TaskListViewModel 状态/筛选实现",
+      "target_id": "imp-task-viewmodel",
+      "target_name": "实现元素：TaskListViewModel 状态/筛选实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-filter-page",
+      "name": "派生",
+      "source_id": "func-list-filter",
+      "source_name": "功能：待办列表视图筛选",
+      "statement": "功能：待办列表视图筛选 --(派生)--> 实现元素：待办列表页面实现",
+      "target_id": "imp-task-list-page",
+      "target_name": "实现元素：待办列表页面实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-stats-imp",
+      "name": "派生",
+      "source_id": "func-stats",
+      "source_name": "功能：待办进度统计",
+      "statement": "功能：待办进度统计 --(派生)--> 实现元素：进度统计组件实现",
+      "target_id": "imp-task-stats",
+      "target_name": "实现元素：进度统计组件实现",
+      "type": "派生"
+    },
+    {
+      "id": "rder-crud-model",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 逻辑元素：TaskModel",
+      "target_id": "le-task-model",
+      "target_name": "逻辑元素：TaskModel",
+      "type": "派生"
+    },
+    {
+      "id": "rder-crud-bridge",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 逻辑元素：PlatformBridge",
+      "target_id": "le-platform-bridge",
+      "target_name": "逻辑元素：PlatformBridge",
+      "type": "派生"
+    },
+    {
+      "id": "rder-func-crud-bridge-imp",
+      "name": "派生",
+      "source_id": "func-task-crud",
+      "source_name": "功能：待办任务增删改查",
+      "statement": "功能：待办任务增删改查 --(派生)--> 实现元素：平台能力适配实现",
+      "target_id": "imp-platform-bridge",
+      "target_name": "实现元素：平台能力适配实现",
+      "type": "派生"
     }
   ],
   "views": [
@@ -1947,6 +3189,224 @@
         "ra-teststrat-tc002",
         "ra-teststrat-tc003",
         "ra-teststrat-tc004"
+      ]
+    },
+    {
+      "view_id": "view-stage-s3-plan",
+      "view_name": "阶段三：架构与系统设计（活动·需求与架构需求）",
+      "parent_element_id": "stage-s3",
+      "description": "阶段三（1.9.3.3 / TR2）核心视图：stage-s3 组合 3 个 IPD 活动；SR 派生 AR；架构设计/系统设计实现 AR（Realization）；TR2 评审 AR。",
+      "included_elements": [
+        "stage-s3",
+        "rp-tr2",
+        "sr-001",
+        "sr-002",
+        "sr-003",
+        "sr-004",
+        "act-s3-arch-design",
+        "act-s3-sys-design",
+        "act-s3-func-design",
+        "ar-001",
+        "ar-002",
+        "ar-003",
+        "ar-004"
+      ],
+      "included_relationships": [
+        "rc-s3-a1",
+        "rc-s3-a2",
+        "rc-s3-a3",
+        "rd-sr001-ar001",
+        "rd-sr002-ar002",
+        "rd-sr003-ar003",
+        "rd-sr004-ar004",
+        "rrev-tr2-ar001",
+        "rrev-tr2-ar002",
+        "rrev-tr2-ar003",
+        "rrev-tr2-ar004",
+        "rr-arch-ar001",
+        "rr-arch-ar002",
+        "rr-arch-ar003",
+        "rr-arch-ar004",
+        "rr-sys-ar001",
+        "rr-sys-ar002",
+        "rr-sys-ar003",
+        "rr-sys-ar004"
+      ]
+    },
+    {
+      "view_id": "view-stage-s3-parts-functions",
+      "view_name": "阶段三：部件与系统功能",
+      "parent_element_id": "stage-s3",
+      "description": "阶段三：架构设计产出部件（Association）、功能设计产出功能（派生），每个功能 --归属于--> 唯一部件，功能 --Realization--> AR。",
+      "included_elements": [
+        "act-s3-arch-design",
+        "act-s3-func-design",
+        "ar-001",
+        "ar-002",
+        "ar-003",
+        "ar-004",
+        "part-data-persist",
+        "part-domain-state",
+        "part-arkui-view",
+        "part-platform-adapt",
+        "func-task-crud",
+        "func-task-status",
+        "func-list-filter",
+        "func-stats"
+      ],
+      "included_relationships": [
+        "rbelong-crud-domain",
+        "rbelong-status-domain",
+        "rbelong-filter-view",
+        "rbelong-stats-view",
+        "ract-func-crud",
+        "ract-func-status",
+        "ract-func-filter",
+        "ract-func-stats",
+        "racc-arch-part-dp",
+        "racc-arch-part-ds",
+        "racc-arch-part-v",
+        "racc-arch-part-p",
+        "rreal-func-crud-ar001",
+        "rreal-func-status-ar002",
+        "rreal-func-filter-ar003",
+        "rreal-func-stats-ar004"
+      ]
+    },
+    {
+      "view_id": "view-stage-s3-logical",
+      "view_name": "阶段三：逻辑元素与部件归属",
+      "parent_element_id": "stage-s3",
+      "description": "阶段三：部件 --Association--> 逻辑元素（架构设计 Access 产出），功能 --派生--> 逻辑元素。",
+      "included_elements": [
+        "act-s3-arch-design",
+        "part-data-persist",
+        "part-domain-state",
+        "part-arkui-view",
+        "part-platform-adapt",
+        "le-task-model",
+        "le-task-repository",
+        "le-task-list-viewmodel",
+        "le-task-list-page",
+        "le-task-stats-panel",
+        "le-platform-bridge",
+        "func-task-crud",
+        "func-task-status",
+        "func-list-filter",
+        "func-stats"
+      ],
+      "included_relationships": [
+        "rder-crud-repo",
+        "rder-crud-vm",
+        "rder-status-vm",
+        "rder-filter-vm",
+        "rder-filter-page",
+        "rder-stats-panel",
+        "rassoc-dp-model",
+        "rassoc-dp-repo",
+        "rassoc-ds-vm",
+        "rassoc-v-page",
+        "rassoc-v-panel",
+        "rassoc-p-bridge",
+        "racc-arch-model",
+        "racc-arch-repo",
+        "racc-arch-vm",
+        "racc-arch-page",
+        "racc-arch-panel",
+        "racc-arch-bridge",
+        "rder-crud-model",
+        "rder-crud-bridge"
+      ]
+    },
+    {
+      "view_id": "view-stage-s3-implementation",
+      "view_name": "阶段三：实现元素",
+      "parent_element_id": "stage-s3",
+      "description": "阶段三：逻辑元素 --派生--> 实现元素，系统设计 Access 产出实现元素。",
+      "included_elements": [
+        "act-s3-sys-design",
+        "le-task-model",
+        "le-task-repository",
+        "le-task-list-viewmodel",
+        "le-task-list-page",
+        "le-task-stats-panel",
+        "le-platform-bridge",
+        "imp-task-model",
+        "imp-task-repository",
+        "imp-task-viewmodel",
+        "imp-task-list-page",
+        "imp-task-stats",
+        "imp-platform-bridge"
+      ],
+      "included_relationships": [
+        "rder-model-imp",
+        "rder-repo-imp",
+        "rder-vm-imp",
+        "rder-page-imp",
+        "rder-panel-imp",
+        "rder-bridge-imp",
+        "racc-sys-model",
+        "racc-sys-repo",
+        "racc-sys-vm",
+        "racc-sys-page",
+        "racc-sys-stats",
+        "racc-sys-bridge"
+      ]
+    },
+    {
+      "view_id": "view-stage-s3-software-units",
+      "view_name": "阶段三：软件单元",
+      "parent_element_id": "stage-s3",
+      "description": "阶段三：实现元素 --派生--> 软件单元（ArkTS 源文件/模块粒度）。",
+      "included_elements": [
+        "imp-task-model",
+        "imp-task-repository",
+        "imp-task-viewmodel",
+        "imp-task-list-page",
+        "imp-task-stats",
+        "imp-platform-bridge",
+        "su-task-model",
+        "su-task-repository",
+        "su-task-viewmodel",
+        "su-task-list-page",
+        "su-task-stats",
+        "su-platform-bridge"
+      ],
+      "included_relationships": [
+        "rder-imp-model-su",
+        "rder-imp-repo-su",
+        "rder-imp-vm-su",
+        "rder-imp-page-su",
+        "rder-imp-stats-su",
+        "rder-imp-bridge-su"
+      ]
+    },
+    {
+      "view_id": "view-stage-s3-function-map",
+      "view_name": "阶段三：功能到实现元素映射",
+      "parent_element_id": "stage-s3",
+      "description": "阶段三：功能 --派生--> 实现元素（功能落地到实现元素的映射视图）。",
+      "included_elements": [
+        "imp-task-model",
+        "imp-task-repository",
+        "imp-task-viewmodel",
+        "imp-task-list-page",
+        "imp-task-stats",
+        "imp-platform-bridge",
+        "func-task-crud",
+        "func-task-status",
+        "func-list-filter",
+        "func-stats"
+      ],
+      "included_relationships": [
+        "rder-func-crud-model",
+        "rder-func-crud-repo",
+        "rder-func-crud-vm",
+        "rder-func-status-vm",
+        "rder-func-filter-vm",
+        "rder-func-filter-page",
+        "rder-func-stats-imp",
+        "rder-func-crud-bridge-imp"
       ]
     }
   ]
