@@ -26,7 +26,7 @@
       "id": "pm-wm-001",
       "name": "项目经理 T1 工作记忆（会话摘要）",
       "type": "Business Object",
-      "description": "【T1 会话摘要】2026-10-13 | 本会话：完成 IPD 全量设计阶段二（1.9.3.2 / TR1）系统需求分析（commit 6862f8e，已登记回元素并推送 origin/main）。产出：stage-s2 组合 3 个 IPD 活动；IR-001/IR-002 --派生--> SR-001..004；4 场景 --覆盖--> 4 系统用例；SR --派生--> 4 特性 + 2 SDR；4 测试用例 --验证--> SR；TR1 --评审--> SR；新增 4 个挂载子视图（≤15 元素）。校验：validateSystemArchitecture 通过、node tests/*.test.js 全绿（新增 tests/stage2_system_requirements.test.js）。工作区：IDPDV demo，将 android/architecture-samples（Todo）重写为鸿蒙应用（ArkTS/ArkUI），按 IPD 四阶段推进（阶段一 1.9.3.1/Charter 前序 commit 2a3c60d）。下一步：阶段三 1.9.3.3 / TR2 架构与系统设计（SR→AR、功能、逻辑/实现元素、部件）。详见 T2：pm-ltm-stage-s2。",
+      "description": "【T1 会话摘要】2026-10-14 | 本会话：完成 IPD 全量设计阶段三（1.9.3.3 / TR2）架构与系统设计（commit ca8e84d，已登记回元素并推送 origin/main）。产出：stage-s3 组合 3 活动（架构设计/系统设计/功能设计）；SR-001..004 --派生--> AR-001..004；4 部件（含 DFX 质量属性）；4 功能 --归属于--> 唯一部件；功能 --派生--> 逻辑元素与实现元素；逻辑元素 --派生--> 实现元素 --派生--> 软件单元；TR2 --评审--> AR；新增 6 个挂载子视图（≤15 元素）。矩阵修正：需求→功能 派生 非法→用 功能 --Realization--> AR；部件→逻辑元素 Composition 非法→用 Association。校验：validateSystemArchitecture 通过、node tests/*.test.js 全绿（新增 tests/stage3_architecture_design.test.js）。工作区：IDPDV demo，将 android/architecture-samples（Todo）重写为鸿蒙应用（ArkTS/ArkUI），按 IPD 四阶段推进（阶段一 Charter 2a3c60d、阶段二 TR1 6862f8e）。下一步：阶段四 1.9.3.4 / TR4A·TR5·TR6（软件包、测试资产、缺陷/补丁）。详见 T2：pm-ltm-stage-s3。",
       "attributes": [
         {
           "name": "memoryTier",
@@ -38,7 +38,7 @@
         },
         {
           "name": "lastSummaryAt",
-          "value": "2026-10-13"
+          "value": "2026-10-14"
         }
       ]
     },
@@ -206,6 +206,13 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=invariants node tests/stage3_architecture_design.test.js",
           "description": "给定 阶段三图谱；当 校验视图不变量；则 恰有一个顶层 SystemArchitecture 视图、每个元素与关系至少属于一个视图、每个视图元素数不超过 15，且六个子视图均挂载于 stage-s3。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "阶段三（1.9.3.3 / TR2）建模：stage-s3 组合 3 活动，SR→AR，功能/部件/逻辑/实现元素/软件单元；files: design/KG/SystemArchitecture.json, tests/stage3_architecture_design.test.js, idpdv-demo.qea"
+        }
       ]
     },
     {
@@ -261,6 +268,13 @@
           "Input": "design/KG/SystemArchitecture.json（rp-tr2→ar-00x 评审）",
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=review node tests/stage3_architecture_design.test.js",
           "description": "给定 技术评审点 TR2；当 检查评审关系；则 TR2 --(评审)--> 每个架构需求 AR-00x。"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "TR2 技术评审点 --评审--> 4 个 AR；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -914,6 +928,13 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=outputs node tests/stage3_architecture_design.test.js",
           "description": "给定 阶段三 IPD 活动；当 检查产出关系；则 架构设计/系统设计 --(Realization)--> AR、架构设计 --(Access)--> 逻辑元素、系统设计 --(Access)--> 实现元素、功能设计 --(派生)--> 功能。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 IPD 活动 架构设计；产出部件/逻辑元素并实现 AR；files: design/KG/SystemArchitecture.json"
+        }
       ]
     },
     {
@@ -937,6 +958,11 @@
         {
           "name": "质量属性",
           "value": "可靠性"
+        },
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 AR-001 架构需求（SR-001 派生）；files: design/KG/SystemArchitecture.json"
         }
       ],
       "testcases": [
@@ -1014,6 +1040,11 @@
         {
           "name": "质量属性",
           "value": "可靠性"
+        },
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 部件 领域与状态管理层；files: design/KG/SystemArchitecture.json"
         }
       ],
       "testcases": [
@@ -1072,6 +1103,13 @@
           "Input": "design/KG/SystemArchitecture.json（功能→逻辑元素 派生、逻辑元素→实现元素 派生、部件→逻辑元素 Association）",
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=logical node tests/stage3_architecture_design.test.js",
           "description": "给定 逻辑元素；当 检查来源与去向；则 每个逻辑元素由功能派生、关联到部件，并 --(派生)--> 至少一个实现元素。"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 逻辑元素 TaskRepository；files: design/KG/SystemArchitecture.json"
         }
       ]
     },
@@ -1132,6 +1170,11 @@
         {
           "name": "质量属性",
           "value": "性能"
+        },
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 实现元素 TaskListViewModel 状态/筛选实现；files: design/KG/SystemArchitecture.json"
         }
       ],
       "testcases": [
@@ -1205,6 +1248,13 @@
           "acceptanceCriteria": "ARGO_TESTCASE_ANCHOR=units node tests/stage3_architecture_design.test.js",
           "description": "给定 软件单元；当 检查来源；则 每个软件单元由至少一个实现元素派生（ArkTS 源文件/模块粒度）。"
         }
+      ],
+      "attributes": [
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 软件单元 TaskListViewModel.ets；files: design/KG/SystemArchitecture.json"
+        }
       ]
     },
     {
@@ -1234,6 +1284,11 @@
         {
           "name": "质量属性",
           "value": "可靠性"
+        },
+        {
+          "name": "commit",
+          "value": "ca8e84d",
+          "description": "新增 功能：待办任务增删改查（归属于 领域与状态管理层）；files: design/KG/SystemArchitecture.json"
         }
       ],
       "testcases": [
@@ -1281,6 +1336,38 @@
           "value": "性能"
         }
       ]
+    },
+    {
+      "attributes": [
+        {
+          "name": "memoryTier",
+          "value": "T2"
+        },
+        {
+          "name": "status",
+          "value": "COMPLETED"
+        },
+        {
+          "name": "stage",
+          "value": "1.9.3.3"
+        },
+        {
+          "name": "gate",
+          "value": "TR2"
+        },
+        {
+          "name": "commit",
+          "value": "ca8e84d"
+        },
+        {
+          "name": "recordedAt",
+          "value": "2026-10-14"
+        }
+      ],
+      "description": "【T2 里程碑 | 2026-10-14 | commit ca8e84d】IPD 全量设计阶段三（1.9.3.3 / TR2）架构与系统设计完成。\n目标：承接阶段二 SR，产出架构需求 AR、系统功能、部件、逻辑元素、实现元素与软件单元，关口 TR2。\n进展：经 ARGO MCP 建模——stage-s3 以 Composition 组合 3 个 IPD 活动（架构设计/系统设计/功能设计）；SR-001..004 --派生--> AR-001..004；4 个部件（数据持久层/领域与状态管理层/ArkUI 展现层/平台适配层，带 DFX 质量属性）；4 个功能 --归属于--> 唯一部件（功能公理）；功能 --派生--> 6 逻辑元素与 6 实现元素；逻辑元素 --派生--> 实现元素 --派生--> 6 软件单元（ArkTS 源文件粒度）；TR2 --评审--> 4 AR；活动产出遵循 overrideMatrix（→需求 Realization、→逻辑/实现元素 Access、→功能 派生）。新增 6 个挂载子视图（plan 13 / parts-functions 14 / logical 15 / implementation 13 / software-units 12 / function-map 10，均 ≤15），根视图保持 14。\n决策/坑（矩阵驱动修正，关键）：(1) 需求 --派生--> 功能 非法（Requirement 派生 target 仅 BusinessObject/Requirement/Deliverable/Grouping）→ 改 功能 --Realization--> AR 表达需求-功能追溯，另 功能设计 --派生--> 功能（行为→行为合法）；(2) 部件 --Composition--> 逻辑元素 非法（BusinessCollaboration Composition target 仅 Active Structure/Grouping）→ 改 部件 --Association--> 逻辑元素；(3) 活动→部件 无 Access（BusinessFunction Access target 不含 BusinessCollaboration）→ 改 Association；(4) 部件 未在 attributesByElementType，但挂 质量属性 属性仍通过校验（无需扩展 schema）；(5) IPD 活动 系统设计/功能设计 与 act-build-features 语义相近（0.87/0.89）→ allowDuplicate + 理由保留。\n验收：node tests/*.test.js 全绿（新增 tests/stage3_architecture_design.test.js；锚点 activities|requirements|functions|parts|logical|implementation|units|review|outputs|grammar|invariants）；validateSystemArchitecture 通过。阶段三验收已以 testcases 回写 stage-s3/ar-001/func-task-crud/part-domain-state/le-task-repository/imp-task-viewmodel/su-task-viewmodel/rp-tr2/act-s3-arch-design。\n遗留/下一步：阶段四 架构与设计实现支撑（1.9.3.4 / TR4A·TR5·TR6）——软件包、测试用例/因子/结果、缺陷/补丁；缺陷 --变更--> 软件单元，测试用例 --验证--> SR。",
+      "id": "pm-ltm-stage-s3",
+      "name": "T2 里程碑：IPD 阶段三 架构与系统设计（1.9.3.3 / TR2）",
+      "type": "Business Object"
     }
   ],
   "relationships": [
@@ -2984,7 +3071,8 @@
       "parent_element_name": "项目经理",
       "included_elements": [
         "pm-ltm-stage-s1",
-        "pm-ltm-stage-s2"
+        "pm-ltm-stage-s2",
+        "pm-ltm-stage-s3"
       ],
       "included_relationships": []
     },
